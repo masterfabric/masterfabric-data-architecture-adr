@@ -1,14 +1,14 @@
 {
   "about": "Every number this repository cites, with the exact README text it comes from. tools/check_claims.py verifies each quote against the source README at the pinned commit.",
   "repos": {
-    "lakehouse-lab": "bea60a2",
-    "realtime-telco": "0e6637e",
-    "airflow-mlops": "798e173",
-    "onprem-llm-stack": "d55ea0f",
-    "llm-serving-bench": "06e944f",
-    "secure-data-ai": "b0b1740",
-    "genai-foundations": "bfc85b3",
-    "spark-rust-bench": "aeac1b1"
+    "lakehouse-lab": "2382c11",
+    "realtime-telco": "8776322",
+    "airflow-mlops": "ea335bc",
+    "onprem-llm-stack": "80b2a9c",
+    "llm-serving-bench": "0bdc279",
+    "secure-data-ai": "30bf75f",
+    "genai-foundations": "32102dd",
+    "spark-rust-bench": "8a6e137"
   },
   "claims": [
     {
@@ -321,17 +321,21 @@
     {
       "id": "sd_llm01",
       "repo": "secure-data-ai",
-      "quote": "7/10 → **4/10**",
+      "quote": "| Direct prompt injection (LLM01), development set | 7/10 → 4/10 (rules) → **0/10** (rules + classifier) |",
       "values": {
         "before": 7,
-        "after": 4
+        "rules": 4,
+        "after": 0
       }
     },
     {
       "id": "sd_benign",
       "repo": "secure-data-ai",
-      "quote": "| Benign questions blocked by the guards | 0/10 |",
-      "values": {}
+      "quote": "| Legitimate questions blocked | 0/22 with rules; **3/22** with the classifier (1/10 benign, 2/12 hard benign) |",
+      "values": {
+        "rules": 0,
+        "classifier": 3
+      }
     },
     {
       "id": "gf_gpt",
@@ -362,45 +366,48 @@
     {
       "id": "sr_sum",
       "repo": "spark-rust-bench",
-      "quote": "| **Sum** | **3.731** | **3.929** | **0.966** | **1.450** |",
+      "quote": "| **Sum** | **15.975** | **15.922** | **4.325** | **4.777** | |",
       "values": {
-        "pyspark": 3.731,
-        "scala": 3.929,
-        "polars": 0.966,
-        "datafusion": 1.45
+        "pyspark": 15.975,
+        "scala": 15.922,
+        "polars": 4.325,
+        "duckdb": 4.777
       }
     },
     {
       "id": "sr_mem",
       "repo": "spark-rust-bench",
-      "quote": "| Peak memory, 50M rows | 3,616 MiB | 5,055 MiB | 1,766 MiB | 3,588 MiB |",
+      "quote": "| Peak memory at 200M | 7.6 GiB | 7.1 GiB | 3.6 GiB | 3.2 GiB | 8 GiB (limit) | |",
       "values": {
-        "pyspark": 3616,
-        "scala": 5055,
-        "polars": 1766
+        "pyspark": 7.6,
+        "scala": 7.1,
+        "polars": 3.6,
+        "duckdb": 3.2
       }
     },
     {
       "id": "sr_udf_builtin",
       "repo": "spark-rust-bench",
-      "quote": "| Built-in `CASE WHEN` | 0.104 | 0.273 |",
+      "quote": "| Built-in `CASE WHEN` | 0.111 | 0.263 | 0.482 | 0.846 |",
       "values": {
-        "s_50m": 0.273
+        "s_200m": 0.846
       }
     },
     {
       "id": "sr_udf_py",
       "repo": "spark-rust-bench",
-      "quote": "| Python UDF (row at a time) | 1.460 | 6.613 |",
+      "quote": "| Python UDF (row at a time) | 1.448 | 6.594 | 13.681 | 24.754 |",
       "values": {
-        "s_50m": 6.613
+        "s_200m": 24.754
       }
     },
     {
       "id": "sr_match",
       "repo": "spark-rust-bench",
-      "quote": "60 of 60 query results are identical",
-      "values": {}
+      "quote": "234 of 234 query results are\nidentical",
+      "values": {
+        "matched": 234
+      }
     },
     {
       "id": "sd_notes",
