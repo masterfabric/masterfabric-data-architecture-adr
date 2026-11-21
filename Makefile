@@ -1,4 +1,4 @@
-.PHONY: venv check check-local test charts
+.PHONY: venv check check-local test cost charts
 PY = .venv/bin/python
 
 venv:
@@ -12,6 +12,9 @@ check-local:  ## same, against sibling checkouts in ..
 
 test:
 	$(PY) -m pytest -q
+
+cost:  ## cost per unit of work from verified claims + dated prices -> evidence/cost_model.json
+	$(PY) tools/cost_model.py
 
 charts:
 	cd viz && ../$(PY) make_charts.py && ../$(PY) make_diagrams.py && ../$(PY) make_hero.py
