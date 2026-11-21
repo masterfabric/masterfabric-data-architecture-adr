@@ -1,0 +1,28 @@
+{
+  "about": "Inputs of tools/cost_model.py. 'measured' entries point to verified claims in claims.json; 'prices' are list prices with their source and date; 'onprem' entries are assumptions, to be replaced with a real quote.",
+  "measured": {
+    "llm_cpu_q8_tok_s": {"claim": "sv_q8", "key": "cpu", "unit": "output tok/s, Qwen2.5-1.5B Q8_0, 4 concurrent, 6 vCPU container"},
+    "llm_cpu_q4_tok_s": {"claim": "sv_q4", "key": "cpu", "unit": "output tok/s, Qwen2.5-1.5B Q4_K_M, 4 concurrent, 6 vCPU container"},
+    "sql_polars_s": {"claim": "sr_sum", "key": "polars", "unit": "s, six queries on 200M rows, 6 vCPU / 8 GiB container"},
+    "sql_duckdb_s": {"claim": "sr_sum", "key": "duckdb", "unit": "s, six queries on 200M rows, 6 vCPU / 8 GiB container"},
+    "sql_pyspark_s": {"claim": "sr_sum", "key": "pyspark", "unit": "s, six queries on 200M rows, 6 vCPU / 8 GiB container"},
+    "stream_flink_cpu_pct": {"claim": "rt_flink", "key": "flink_cpu_pct", "unit": "% average CPU during the live feed, same job"},
+    "stream_spark_cpu_pct": {"claim": "rt_flink", "key": "spark_cpu_pct", "unit": "% average CPU during the live feed, same job"}
+  },
+  "container_vcpu": 6,
+  "prices": {
+    "source": "AWS EC2 m7g.2xlarge (8 vCPU Graviton3, 32 GiB, arm64 like the labs), Linux, as listed on instances.vantage.sh/aws/ec2/m7g.2xlarge on 2026-11-21 (US East list prices)",
+    "instance_vcpu": 8,
+    "usd_per_hour": {"on_demand": 0.3264, "reserved_1y": 0.216, "reserved_3y": 0.148}
+  },
+  "onprem": {
+    "note": "Assumptions, not measurements: one 2-socket server, priced for illustration. Replace with a real quote; the break-even logic does not change.",
+    "server_usd": 20000,
+    "server_vcpu": 128,
+    "life_years": 5,
+    "avg_power_kw": 0.6,
+    "pue": 1.5,
+    "usd_per_kwh": 0.12,
+    "ops_share_of_capex_per_year": 0.15
+  }
+}

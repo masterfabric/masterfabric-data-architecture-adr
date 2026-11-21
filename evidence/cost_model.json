@@ -1,0 +1,268 @@
+{
+  "usd_per_vcpu_hour": {
+    "cloud_on_demand": 0.0408,
+    "cloud_reserved_1y": 0.027,
+    "cloud_reserved_3y": 0.0185,
+    "onprem": 0.00709
+  },
+  "measured": {
+    "llm_cpu_q8_tok_s": 328,
+    "llm_cpu_q4_tok_s": 184,
+    "sql_polars_s": 4.325,
+    "sql_duckdb_s": 4.777,
+    "sql_pyspark_s": 15.975,
+    "stream_flink_cpu_pct": 12,
+    "stream_spark_cpu_pct": 83
+  },
+  "break_even_utilisation_vs_on_demand": {
+    "cloud_reserved_1y": 0.662,
+    "cloud_reserved_3y": 0.453,
+    "onprem": 0.174
+  },
+  "llm_usd_per_million_tokens": {
+    "10%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 1.372,
+        "q4": 2.4457
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.94,
+        "q4": 1.6757
+      },
+      "onprem": {
+        "q8": 0.3601,
+        "q4": 0.6419
+      }
+    },
+    "20%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 0.686,
+        "q4": 1.2228
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.47,
+        "q4": 0.8379
+      },
+      "onprem": {
+        "q8": 0.18,
+        "q4": 0.321
+      }
+    },
+    "30%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 0.4573,
+        "q4": 0.8152
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.3133,
+        "q4": 0.5586
+      },
+      "onprem": {
+        "q8": 0.12,
+        "q4": 0.214
+      }
+    },
+    "50%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 0.2744,
+        "q4": 0.4891
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.188,
+        "q4": 0.3351
+      },
+      "onprem": {
+        "q8": 0.072,
+        "q4": 0.1284
+      }
+    },
+    "70%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 0.196,
+        "q4": 0.3494
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.1343,
+        "q4": 0.2394
+      },
+      "onprem": {
+        "q8": 0.0514,
+        "q4": 0.0917
+      }
+    },
+    "100%": {
+      "cloud_on_demand": {
+        "q8": 0.2073,
+        "q4": 0.3696
+      },
+      "cloud_reserved_1y": {
+        "q8": 0.1372,
+        "q4": 0.2446
+      },
+      "cloud_reserved_3y": {
+        "q8": 0.094,
+        "q4": 0.1676
+      },
+      "onprem": {
+        "q8": 0.036,
+        "q4": 0.0642
+      }
+    }
+  },
+  "sql_usd_per_thousand_runs": {
+    "10%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 1.9462,
+        "duckdb": 2.1496,
+        "pyspark": 7.1887
+      },
+      "cloud_reserved_3y": {
+        "polars": 1.3335,
+        "duckdb": 1.4729,
+        "pyspark": 4.9256
+      },
+      "onprem": {
+        "polars": 0.5108,
+        "duckdb": 0.5642,
+        "pyspark": 1.8868
+      }
+    },
+    "20%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 0.9731,
+        "duckdb": 1.0748,
+        "pyspark": 3.5944
+      },
+      "cloud_reserved_3y": {
+        "polars": 0.6668,
+        "duckdb": 0.7365,
+        "pyspark": 2.4628
+      },
+      "onprem": {
+        "polars": 0.2554,
+        "duckdb": 0.2821,
+        "pyspark": 0.9434
+      }
+    },
+    "30%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 0.6488,
+        "duckdb": 0.7166,
+        "pyspark": 2.3962
+      },
+      "cloud_reserved_3y": {
+        "polars": 0.4445,
+        "duckdb": 0.491,
+        "pyspark": 1.6419
+      },
+      "onprem": {
+        "polars": 0.1703,
+        "duckdb": 0.1881,
+        "pyspark": 0.6289
+      }
+    },
+    "50%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 0.3893,
+        "duckdb": 0.4299,
+        "pyspark": 1.4378
+      },
+      "cloud_reserved_3y": {
+        "polars": 0.2667,
+        "duckdb": 0.2946,
+        "pyspark": 0.9851
+      },
+      "onprem": {
+        "polars": 0.1022,
+        "duckdb": 0.1128,
+        "pyspark": 0.3774
+      }
+    },
+    "70%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 0.278,
+        "duckdb": 0.3071,
+        "pyspark": 1.027
+      },
+      "cloud_reserved_3y": {
+        "polars": 0.1905,
+        "duckdb": 0.2104,
+        "pyspark": 0.7037
+      },
+      "onprem": {
+        "polars": 0.073,
+        "duckdb": 0.0806,
+        "pyspark": 0.2695
+      }
+    },
+    "100%": {
+      "cloud_on_demand": {
+        "polars": 0.2941,
+        "duckdb": 0.3248,
+        "pyspark": 1.0863
+      },
+      "cloud_reserved_1y": {
+        "polars": 0.1946,
+        "duckdb": 0.215,
+        "pyspark": 0.7189
+      },
+      "cloud_reserved_3y": {
+        "polars": 0.1334,
+        "duckdb": 0.1473,
+        "pyspark": 0.4926
+      },
+      "onprem": {
+        "polars": 0.0511,
+        "duckdb": 0.0564,
+        "pyspark": 0.1887
+      }
+    }
+  },
+  "stream_cpu_ratio_spark_over_flink": 6.92,
+  "sql_runtime_ratio_pyspark_over_polars": 3.69
+}
