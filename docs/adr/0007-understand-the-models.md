@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-genai-foundations](https://github.com/masterfabric/masterfabric-genai-foundations) (pinned at `bfc85b3`)
+- Evidence: [masterfabric-genai-foundations](https://github.com/masterfabric/masterfabric-genai-foundations) (pinned at `32102dd`)
 
 ## Context
 
@@ -31,3 +31,11 @@ LoRA came within 0.033 nats of full fine-tuning on the new data and forgot less 
 
 - Adapters are small and can be swapped per use case on one served base model (ADR 0004).
 - Laptop-scale results show the mechanics, not production model quality.
+
+## Update 2026-11-21: WGAN-GP, diffusion and DPO (genai-foundations `32102dd`)
+
+- The team curriculum now covers the three families behind current generative systems, each built
+  and measured from scratch: WGAN-GP covered 8 of 8 modes in all 3 seeds (the plain GAN 4-6 of 8);
+  DDPM covered 8 of 8 modes with 95% of samples on a mode, and DDIM with 20 steps 89%; DPO raised the
+  share of real words from 0.749 to 0.786, ahead of filtered SFT (0.771) and best-of-4 (0.763).
+- Decision unchanged: adapt with small, measured methods (LoRA, DPO) before full fine-tuning.

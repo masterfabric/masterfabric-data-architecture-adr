@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (pinned at `b0b1740`)
+- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (pinned at `30bf75f`)
 
 ## Context
 
@@ -27,11 +27,23 @@ users do not apply by themselves to a RAG pipeline or a chatbot.
 | Policy bypass attempts | 0 of 50 allowed |
 | Unauthorised chunks in RAG context | 99.6% → 0; PII entities 4,476 → 0 |
 | PII disclosure attacks (LLM02) | 6/8 → 0/8 |
-| Direct prompt injection (LLM01) | 7/10 → 4/10 |
-| Benign questions blocked | 0/10 |
+| Direct prompt injection (LLM01), development set | 7/10 → 4/10 (rules) → 0/10 (rules + classifier) |
+| Direct prompt injection, held-out set | 7/12 → 1/12 (rules + classifier) |
+| Legitimate questions blocked | 0/22 with rules; 3/22 with the classifier |
 
 ## Consequences
 
-- Prompt injection is reduced, not solved (4/10 still succeed); retrieval filtering is the control
-  that does not depend on the model behaving.
+- Prompt injection is reduced, not solved (1/12 held-out attacks still succeed, and the classifier
+  blocks 3/22 legitimate questions); retrieval filtering is the control that does not depend on
+  the model behaving.
 - Maps to Ranger policies and Atlas classifications in CDP, applied again in the RAG layer.
+
+## Update 2026-11-21: second injection layer, audit chain, KVKK erasure (secure-data-ai `30bf75f`)
+
+- A classifier behind the rules took direct injection on the development set from 4/10 to 0/10, but
+  on a **held-out set** it still let 1/12 through, and it blocked 3/22 legitimate questions (rules
+  alone: 0/22). Injection is reduced, not solved; see ADR 0012.
+- The audit log is **hash-chained**: 2,404 entries in a simulated day, chain verified, 3/3 tamper
+  drills detected, 26 µs per append.
+- **KVKK erasure** for 50 subjects left 0 residual rows outside the 100 invoice rows kept for legal
+  retention, p50 108 ms per erasure request.

@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) (pinned at `06e944f`)
+- Evidence: [masterfabric-llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) (pinned at `0bdc279`)
 
 ## Context
 
@@ -32,3 +32,13 @@ On CPU, Q8_0 gave 1.8× the throughput of Q4_K_M; on the GPU, Q4_K_M was slightl
 
 - Benchmarks are rerun when the model, runtime version or hardware changes.
 - Long-context RAG on CPU is a latency risk (13.83 s to first token at 3.8k tokens).
+
+## Update 2026-11-21: MLX, KV cache, long context, speculative decoding (llm-serving-bench `0bdc279`)
+
+- **Engine:** on the same GPU, MLX 4-bit decoded 210 vs 171 tok/s for llama.cpp Q4_K_M, but its
+  perplexity rose 17.5% over 8-bit against 4.5% for Q4_K_M. Choose by quality and speed together.
+- **KV cache:** a q8_0 KV cache halved the KV buffer at 32k context (896 → 476 MiB) at the same
+  speed; use it for long contexts.
+- **Speculative decoding** with a 0.5B draft paid off only for a 7B target on predictable text (1.60x
+  llama.cpp, 1.73x MLX on code/SQL/YAML) and slowed open text; enable it per workload, not globally.
+- The cost of these choices per token is in ADR 0009.
