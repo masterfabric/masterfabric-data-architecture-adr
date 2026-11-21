@@ -32,3 +32,68 @@ Every step below is one commit, in order. Times are Europe/Istanbul (UTC+3).
 
 The final commit adds this file and the README; see `git log` for the full messages, which explain
 the why of each step (including the fixes found by running the system).
+
+
+## Addition: re-pin to the labs' new heads, cost model, C4 views, ADRs 0009-0012
+
+After each of the eight labs gained new features, this repository was re-pinned to their new heads
+(lakehouse `2382c11`, realtime `8776322`, airflow `ea335bc`, onprem `80b2a9c`, serving `0bdc279`,
+secure `30bf75f`, genai `32102dd`, spark `8a6e137`). Times are Europe/Istanbul (UTC+3).
+
+| # | Commit | Time | Change |
+|---|---|---|---|
+| 1 | `d4218b4` | 2026-11-21 15:02 | evidence: re-pin the eight labs to their new heads and update seven quotes |
+| 2 | `c17202b` | 2026-11-21 15:02 | evidence: 27 claims for the additions to the eight labs |
+| 3 | `a00a9c5` | 2026-11-21 15:04 | feat(cost): on-prem vs cloud cost model on top of the measured throughput |
+| 4 | `17028f5` | 2026-11-21 15:04 | test(cost): compare the idle-capacity rate with a tolerance (0.01 / 0.2 is not exactly 0.05 in floating point) |
+| 5 | `0c3bfa4` | 2026-11-21 15:05 | docs(adr): 0001-0004 re-pinned, with the evidence from each lab's addition |
+| 6 | `3544098` | 2026-11-21 15:05 | docs(adr): 0005-0008 re-pinned, with the evidence from each lab's addition |
+| 7 | `e5cbe0c` | 2026-11-21 15:06 | docs(adr): 0009 place workloads by measured cost per unit of work |
+| 8 | `910e0f5` | 2026-11-21 15:06 | docs(adr): 0010 Flink for new low-latency streams, Spark Structured Streaming where Spark already runs |
+| 9 | `5a84fb6` | 2026-11-21 15:06 | docs(adr): 0011 release models through a canary and a feature store (v5 promoted, v6 rolled back at 5 %) |
+| 10 | `61aabb1` | 2026-11-21 15:06 | docs(adr): 0012 judge guardrails on held-out attacks and legitimate traffic |
+| 11 | `6c03bf7` | 2026-11-21 15:06 | docs(adr): index lists ADRs 0009-0012; 0008 title no longer says Rust only |
+| 12 | `8704339` | 2026-11-21 15:08 | docs(c4): system context, container and RAG component views in Mermaid |
+| 13 | `fffb223` | 2026-11-21 15:08 | viz(c4): Pillow versions of the three C4 views for the README |
+| 14 | `8c71622` | 2026-11-21 15:08 | viz(platform): show Flink, schema registry, WAP, DuckDB, Feast, canary, classifier guard, MLX and audit chain |
+| 15 | `fd15a56` | 2026-11-21 15:10 | viz(evidence): 12 panels; small-job panel now 6 queries on 200M rows, add Flink CPU, exactly-once and held-out guard panels |
+| 16 | `72b780b` | 2026-11-21 15:10 | viz(cost): LLM cost per 1M tokens against utilisation with break-even lines, and SQL cost per 1,000 runs by engine |
+| 17 | `90f14e6` | 2026-11-21 15:10 | viz(hero): 12 ADRs, 82 verified numbers, 200M-row small-job figure |
+| 18 | `1230b93` | 2026-11-21 15:11 | docs(architecture): Flink and schema registry, WAP, DuckDB, canary and feature store, classifier and reranker in the request path, updated Cloudera mapping |
+| 19 | `1921c70` | 2026-11-21 15:11 | build: make cost target |
+| 20 | `371db4d` | 2026-11-21 15:11 | evidence: extend three quotes so ADRs 0010 and 0012 cite only verified numbers |
+| 21 | `c49fe5e` | 2026-11-21 15:13 | docs(readme): 12 ADRs, 82 verified numbers, C4 views, cost section with figure, champion v5 |
+| 22 | `1b6b5b9` | 2026-11-21 15:13 | docs: NOTICE notes the dated price source and no new dependency; CONTRIBUTING rule for cost inputs |
+| 23 | (this commit) | 2026-11-21 15:13 | docs(timeline): this section |
+
+### Verification
+
+| Check | Result |
+|---|---|
+| `make check` (GitHub raw at the pinned commits) | 82/82 claims verified |
+| `make check-local` (sibling checkouts) | 82/82 claims verified |
+| `make test` | 10 passed (5 claim tests, 5 cost-model tests) |
+| Mermaid in README, `docs/architecture.md`, `docs/c4.md` | all 10 diagrams render with mermaid-cli |
+| New dependencies | none (NOTICE updated to say so) |
+
+### Found while running it
+
+- **Seven quotes broke on re-pin.** The labs had rewritten their own tables (for example spark-rust-bench
+  moved its headline from 50M to 200M rows and added DuckDB; secure-data-ai added a classifier
+  layer to its injection rows). The checker failed on exactly those seven, which is its purpose;
+  ADR 0006 and 0008 evidence was rewritten to the new numbers rather than keeping old ones.
+- **A Unicode minus does not parse as a number.** airflow-mlops prints ΔAUC as "−0.0007"; the value
+  check compares against the quote with `*` and backticks stripped, so the claim stores the absolute
+  value (`delta_auc_abs`) instead.
+- **A failing test was pushed once.** The first cost-model test compared floats exactly
+  (0.01 / 0.2 is not exactly 0.05) and `pytest | tail` hid the exit code; `17028f5` fixed it with a
+  tolerance. Test output is now read before committing.
+- **The claims commit message says "three per lab"** but spark-rust-bench got six new claims; the
+  count in the message is wrong, the file is right.
+- **Not every ADR number was a claim at first.** A scan of ADRs 0010-0012 for numbers missing from
+  the claim quotes found four (521,044 offsets, 0/35 and 1/14 benign blocked, 1.17 s); `371db4d`
+  extended three quotes so they are verified too.
+- **Prices change.** The cloud prices are list prices from instances.vantage.sh on 2026-11-21 and the
+  on-prem server is an assumption; the ADR says to re-run with real quotes. Committed capacity is
+  more expensive than on demand below its break-even (66 %, 45 %, 17 %), which the cost chart shows.
+- `fffb223` also contains the platform-diagram code change; its image is in `8c71622`.
