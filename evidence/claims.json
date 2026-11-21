@@ -469,6 +469,252 @@
       "values": {
         "rules": 11
       }
+    },
+    {
+      "id": "lh_wap_audit",
+      "repo": "lakehouse-lab",
+      "quote": "| Great Expectations audit | 11/11 pass, 1.643 s | 8/11 pass, 1.044 s |",
+      "values": {
+        "good_pass": 11,
+        "bad_pass": 8
+      }
+    },
+    {
+      "id": "lh_wap_rollback",
+      "repo": "lakehouse-lab",
+      "quote": "restored\n138,373 rows in 0.057 s, a metadata-only commit",
+      "values": {
+        "rows": 138373,
+        "seconds": 0.057
+      }
+    },
+    {
+      "id": "lh_wap_isolation",
+      "repo": "lakehouse-lab",
+      "quote": "| New rows visible on `main` during the audit | 0 | 0 |",
+      "values": {}
+    },
+    {
+      "id": "rt_flink",
+      "repo": "realtime-telco",
+      "quote": "drain 1.04M records **3.07 s vs 10.54 s** · live p50 **2.6 s vs 4.1 s** · CPU 12 % vs 83 %",
+      "values": {
+        "flink_s": 3.07,
+        "spark_s": 10.54,
+        "flink_cpu_pct": 12,
+        "spark_cpu_pct": 83
+      }
+    },
+    {
+      "id": "rt_exactly_once",
+      "repo": "realtime-telco",
+      "quote": "Flink exactly-once sink **0** duplicates vs **4,080** at-least-once",
+      "values": {
+        "eo": 0,
+        "alo": 4080
+      }
+    },
+    {
+      "id": "rt_registry",
+      "repo": "realtime-telco",
+      "quote": "incompatible v3 **rejected with 409** · Avro 103 B vs JSON 367 B per record",
+      "values": {
+        "avro_b": 103,
+        "json_b": 367
+      }
+    },
+    {
+      "id": "af_canary",
+      "repo": "airflow-mlops",
+      "quote": "shuffled-label v6 **rolled back at 5 %** (Spearman −0.088) · v5 passed 5/25/50 %, paired ΔAUC −0.0007 [−0.0031, +0.0016] → **promoted**",
+      "values": {
+        "rollback_pct": 5,
+        "delta_auc_abs": 0.0007
+      }
+    },
+    {
+      "id": "af_feast_pit",
+      "repo": "airflow-mlops",
+      "quote": "0 of 194,913 training rows differ from the hand-written join · a naive latest join leaves **all 11,179 churners** without features",
+      "values": {
+        "rows": 194913,
+        "churners": 11179
+      }
+    },
+    {
+      "id": "af_evidently",
+      "repo": "airflow-mlops",
+      "quote": "default detector flags 3–7 of 16 columns in **all 6** monitored months; PSI > 0.25 trigger agrees in 5/6",
+      "values": {
+        "months": 6
+      }
+    },
+    {
+      "id": "op_guard_v11",
+      "repo": "onprem-llm-stack",
+      "quote": "| Guardrails + LLM classifier (v1.1) | **24/26**: evasions **4/4** blocked; but 2/4 PII questions now blocked too (false positives)",
+      "values": {
+        "handled": 24,
+        "total": 26
+      }
+    },
+    {
+      "id": "op_heldout",
+      "repo": "onprem-llm-stack",
+      "quote": "rules **0/16** → rules + classifier **10/16**",
+      "values": {
+        "rules": 0,
+        "classifier": 10
+      }
+    },
+    {
+      "id": "op_rerank",
+      "repo": "onprem-llm-stack",
+      "quote": "hit@1 **0.833 → 0.933**, hit@4 0.933 → 1.000 · answer accuracy unchanged (0.800) · +3.8 s p50 on CPU",
+      "values": {
+        "before": 0.833,
+        "after": 0.933,
+        "added_s": 3.8
+      }
+    },
+    {
+      "id": "sv_mlx",
+      "repo": "llm-serving-bench",
+      "quote": "One request: 210 vs 171 tok/s; server\n  peak 474 vs 378 tok/s. Perplexity rises 17.5% over MLX's own 8-bit, against 4.5% for Q4_K_M.",
+      "values": {
+        "mlx": 210,
+        "llamacpp": 171,
+        "mlx_ppl_pct": 17.5,
+        "q4_ppl_pct": 4.5
+      }
+    },
+    {
+      "id": "sv_kvq8",
+      "repo": "llm-serving-bench",
+      "quote": "At 32k context: 896 → 476 MiB KV buffer\n  (computed), server RSS 2,746 → 2,042 MiB (measured), 38.2 vs 37.9 tok/s.",
+      "values": {
+        "kv_f16": 896,
+        "kv_q8": 476
+      }
+    },
+    {
+      "id": "sv_spec",
+      "repo": "llm-serving-bench",
+      "quote": "1.60x (llama.cpp) and 1.73x (MLX) on code/SQL/YAML, 0.41-0.49x on open text with 16 draft tokens.",
+      "values": {
+        "llamacpp": 1.6,
+        "mlx": 1.73
+      }
+    },
+    {
+      "id": "sd_heldout",
+      "repo": "secure-data-ai",
+      "quote": "| Direct prompt injection, **held-out set** | 7/12 → 7/12 (rules) → **1/12** (rules + classifier) |",
+      "values": {
+        "before": 7,
+        "after": 1
+      }
+    },
+    {
+      "id": "sd_audit",
+      "repo": "secure-data-ai",
+      "quote": "2,404 entries, chain verified, **3/3** tamper drills detected, 26 µs per append",
+      "values": {
+        "entries": 2404,
+        "us": 26
+      }
+    },
+    {
+      "id": "sd_erasure",
+      "repo": "secure-data-ai",
+      "quote": "**0** residual rows outside 100 retained invoice rows; other rows unchanged; p50 108 ms",
+      "values": {
+        "retained": 100,
+        "p50_ms": 108
+      }
+    },
+    {
+      "id": "gf_wgan",
+      "repo": "genai-foundations",
+      "quote": "| WGAN-GP, 20k generator steps | **8 of 8** modes in all 3 seeds, 74-77% on a mode (GAN at 20k: still 4-6 of 8) |",
+      "values": {
+        "modes": 8
+      }
+    },
+    {
+      "id": "gf_ddpm",
+      "repo": "genai-foundations",
+      "quote": "**8 of 8** modes, 95% on a mode (3 seeds); DDIM 20 steps: 8 of 8, 89%",
+      "values": {
+        "ddpm_pct": 95,
+        "ddim20_pct": 89
+      }
+    },
+    {
+      "id": "gf_dpo",
+      "repo": "genai-foundations",
+      "quote": "reward (share of real words) 0.749 → **0.786 ± 0.006**; filtered SFT 0.771, best-of-4 0.763",
+      "values": {
+        "reference": 0.749,
+        "dpo": 0.786,
+        "sft": 0.771,
+        "best_of_4": 0.763
+      }
+    },
+    {
+      "id": "sr_scaling",
+      "repo": "spark-rust-bench",
+      "quote": "| 10M (207 MiB) | 1.545 s | 1.613 s | 0.260 s | 0.310 s | 0.293 s | 5.9x |",
+      "values": {
+        "ratio_10m": 5.9
+      }
+    },
+    {
+      "id": "sr_ratio_200m",
+      "repo": "spark-rust-bench",
+      "quote": "| 200M (4,150 MiB) | 15.975 s | 15.922 s | 4.325 s | 4.777 s | killed (exit 137) | 3.7x |",
+      "values": {
+        "pyspark": 15.975,
+        "polars": 4.325,
+        "ratio_200m": 3.7
+      }
+    },
+    {
+      "id": "sr_iceberg_q6",
+      "repo": "spark-rust-bench",
+      "quote": "| Q6, DuckDB (`iceberg_scan`) | 0.693 | 0.314 |",
+      "values": {
+        "parquet": 0.693,
+        "iceberg": 0.314
+      }
+    },
+    {
+      "id": "sr_ntz",
+      "repo": "spark-rust-bench",
+      "quote": "| Q6, PySpark, `TIMESTAMP_NTZ '...'` literal | 1.336 | 0.742 |",
+      "values": {
+        "parquet": 1.336,
+        "iceberg": 0.742
+      }
+    },
+    {
+      "id": "sr_ntz_portable",
+      "repo": "spark-rust-bench",
+      "quote": "| Q6, PySpark, portable `TIMESTAMP '...'` literal | 3.383 | 2.989 |",
+      "values": {
+        "parquet": 3.383,
+        "iceberg": 2.989
+      }
+    },
+    {
+      "id": "sr_iceberg_files",
+      "repo": "spark-rust-bench",
+      "quote": "PyIceberg's plan for Q6 keeps 7 of 30\nand 20 of 92 files, 23% of the bytes",
+      "values": {
+        "files": 20,
+        "of": 92,
+        "pct": 23
+      }
     }
   ]
 }
