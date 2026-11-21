@@ -73,7 +73,7 @@ def main():
         (f"Governed RAG: {C['sd_rag']['before_pct']}% → 0% unauthorised chunks",
          f"PII leaks {C['sd_llm02']['before']}/8 → 0/8 · on-prem RAG hit@4 {C['op_hit']['hit4']}", RED),
         (f"Small jobs: {C['sr_sum']['pyspark']} s → {C['sr_sum']['polars']} s",
-         f"PySpark vs Polars, same SQL, 50M rows · CPU Q8_0 {C['sv_q8']['cpu']} vs Q4 {C['sv_q4']['cpu']} tok/s", YELLOW),
+         f"PySpark vs Polars, same SQL, 200M rows · CPU Q8_0 {C['sv_q8']['cpu']} vs Q4 {C['sv_q4']['cpu']} tok/s", YELLOW),
     ]
     y = 430
     for title, sub, col in facts:
