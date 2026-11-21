@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-lakehouse-lab](https://github.com/masterfabric/masterfabric-lakehouse-lab) (pinned at `bea60a2`)
+- Evidence: [masterfabric-lakehouse-lab](https://github.com/masterfabric/masterfabric-lakehouse-lab) (pinned at `2382c11`)
 
 ## Context
 
@@ -37,3 +37,12 @@ consistent view and survive those changes without rewrites.
 - Maintenance is a scheduled job with its own SLO; small files come back with every streaming or
   small-batch writer (see ADR 0002).
 - In a Cloudera estate this maps to Iceberg tables in CDP with Spark (CDE) and Impala (CDW).
+
+## Update 2026-11-21: write-audit-publish on branches (lakehouse-lab `2382c11`)
+
+- New data lands on an **Iceberg audit branch**, is checked by Great Expectations, and is published by
+  `fast_forward` only if every expectation passes; `main` never shows unaudited rows.
+- Measured: release 2.3 passed 11/11 expectations and was published; the buggy release 2.4 passed
+  8/11 and was blocked; 0 new rows were visible on `main` during either audit. An accidental delete
+  was undone by `rollback_to_snapshot` to a tag: 138,373 rows restored in 0.057 s, metadata only.
+- Consequence: publishing becomes a gated step, like model promotion in ADR 0003.

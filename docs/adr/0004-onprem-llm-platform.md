@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) (pinned at `d55ea0f`)
+- Evidence: [masterfabric-onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) (pinned at `80b2a9c`)
 
 ## Context
 
@@ -35,3 +35,13 @@ in internal documents, and protection against prompt attacks.
   layer, and red-team tests stay in CI.
 - The CPU numbers are a floor; GPU serving choices are measured separately (ADR 0005).
 - Maps to Cloudera AI Inference / CML on GPU nodes, or any Kubernetes with GPU operators.
+
+## Update 2026-11-21: classifier guard, held-out attacks, reranker, monitoring (onprem-llm-stack `80b2a9c`)
+
+- A second guard layer (Granite Guardian 3.2 classifier on its own llama.cpp server) raised the
+  development result to 24/26 and caught all 4 paraphrase evasions, but blocked 2 of 4 PII questions.
+- On attacks written before the classifier existed, rules alone stopped 0/16 and rules plus
+  classifier 10/16. ADR 0012 makes held-out evaluation the rule for every guard.
+- A cross-encoder reranker improved hit@1 from 0.833 to 0.933 but added 3.8 s p50 on CPU and did not
+  change answer accuracy, so it runs on request only.
+- Prometheus and Grafana now scrape the API and the four model servers.

@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `798e173`)
+- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `ea335bc`)
 
 ## Context
 
@@ -33,3 +33,15 @@ Retraining on a timer wastes effort and can ship a worse model; never retraining
 
 - Every model decision leaves a record (gate result, drift value, comparison) that an auditor can read.
 - Maps to Airflow in CDE plus model registry and serving in Cloudera Machine Learning.
+
+## Update 2026-11-21: canary releases, a feature store and Evidently (airflow-mlops `ea335bc`)
+
+- The offline gate is no longer the last step: a promoted model goes to a **canary** (5 %, 25 %,
+  50 % of traffic, shadow-scored). A shuffled-label v6 was **rolled back at 5 %**; v5 passed all
+  three stages (paired ΔAUC −0.0007, interval [−0.0031, +0.0016]) and was promoted. **The current
+  champion is v5.** ADR 0011 records this.
+- **Feast** serves the same features to training (point in time) and to the API: 0 of 194,913
+  training rows differ from the hand-written join, while a naive latest join would have left all
+  11,179 churners without features.
+- **Evidently's** default drift test flagged columns in all 6 monitored months; the PSI > 0.25
+  trigger used here agreed in 5 of 6, so it stays as the retraining signal.
