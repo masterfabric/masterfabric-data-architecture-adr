@@ -1,0 +1,69 @@
+{
+  "about": "Every number this repository cites, with the exact README text it comes from. tools/check_claims.py verifies each quote against the source README at the pinned commit.",
+  "repos": {
+    "lakehouse-lab": "bea60a2",
+    "realtime-telco": "0e6637e",
+    "airflow-mlops": "798e173",
+    "onprem-llm-stack": "d55ea0f",
+    "llm-serving-bench": "06e944f",
+    "secure-data-ai": "b0b1740",
+    "genai-foundations": "bfc85b3",
+    "spark-rust-bench": "aeac1b1"
+  },
+  "claims": [
+    {"id": "lh_scale", "repo": "lakehouse-lab", "quote": "8× the data costs 2.1× the time", "values": {"data_x": 8, "time_x": 2.1}},
+    {"id": "lh_total_8", "repo": "lakehouse-lab", "quote": "| 8 | 16,000 | 339 | 2,097,761 |", "values": {"raw_rows": 2097761}},
+    {"id": "lh_total_8_time", "repo": "lakehouse-lab", "quote": "**68.59 s** | 118.6 MiB | 20/20 |", "values": {"seconds": 68.59, "lake_mib": 118.6}},
+    {"id": "lh_files", "repo": "lakehouse-lab", "quote": "| Data files + position-delete files | 71 + 2 | **14 + 0** |", "values": {"before": 71, "after": 14}},
+    {"id": "lh_query", "repo": "lakehouse-lab", "quote": "| One-day query (`2026-10-05`, median of 7 runs) | 67.8 ms | **28.9 ms** |", "values": {"before": 67.8, "after": 28.9}},
+    {"id": "lh_trino", "repo": "lakehouse-lab", "quote": "135 ms end to end, 51 ms of it planning", "values": {"ms": 135}},
+    {"id": "lh_gate", "repo": "lakehouse-lab", "quote": "20-rule gate with reconciliation against the producer's manifest", "values": {"rules": 20}},
+
+    {"id": "rt_events", "repo": "realtime-telco", "quote": "**520,931 events** delivered in 12 minutes", "values": {"events": 520931}},
+    {"id": "rt_detect", "repo": "realtime-telco", "quote": "**36/36 incidents**, 45 alerts, **2 false** · precision **0.956**", "values": {"false_alerts": 2, "precision": 0.956}},
+    {"id": "rt_static", "repo": "realtime-telco", "quote": "334 alerts, **253 false** · precision **0.243**", "values": {"false_alerts": 253, "precision": 0.243}},
+    {"id": "rt_latency", "repo": "realtime-telco", "quote": "p50 **9.8 s**, p95 9.8 s", "values": {"p50_s": 9.8}},
+    {"id": "rt_bronze", "repo": "realtime-telco", "quote": "bronze **125,611 events/s**", "values": {"events_per_s": 125611}},
+    {"id": "rt_maint", "repo": "realtime-telco", "quote": "per-cell aggregate **736.9 → 43.5 ms**", "values": {"before": 736.9, "after": 43.5}},
+    {"id": "rt_dups", "repo": "realtime-telco", "quote": "2,531 duplicates removed", "values": {"duplicates": 2531}},
+
+    {"id": "af_auc", "repo": "airflow-mlops", "quote": "auto policy (v4) **0.830** · never retrained (v1) **0.789** · oracle upper bound 0.841", "values": {"never": 0.789, "auto": 0.830, "oracle": 0.841}},
+    {"id": "af_lift", "repo": "airflow-mlops", "quote": "auto **4.98** · never retrained 4.63", "values": {"auto": 4.98, "never": 4.63}},
+    {"id": "af_gate", "repo": "airflow-mlops", "quote": "**2026-03 halted**", "values": {}},
+    {"id": "af_rejected", "repo": "airflow-mlops", "quote": "v2 **rejected** (2026-07, lost by 0.0003 AUC)", "values": {"auc_gap": 0.0003}},
+    {"id": "af_psi", "repo": "airflow-mlops", "quote": "PSI of `plan` **0.3151**", "values": {"psi": 0.3151}},
+    {"id": "af_api", "repo": "airflow-mlops", "quote": "p50 **2.67 ms**, p95 2.93 ms per subscriber", "values": {"p50_ms": 2.67}},
+    {"id": "af_rollback", "repo": "airflow-mlops", "quote": "served after **3.41 s**", "values": {"seconds": 3.41}},
+
+    {"id": "op_corpus", "repo": "onprem-llm-stack", "quote": "23 documents → **207 chunks**", "values": {"chunks": 207}},
+    {"id": "op_hit", "repo": "onprem-llm-stack", "quote": "**hit@4 0.933**", "values": {"hit4": 0.933}},
+    {"id": "op_acc", "repo": "onprem-llm-stack", "quote": "accuracy **0.767**", "values": {"accuracy": 0.767}},
+    {"id": "op_refuse", "repo": "onprem-llm-stack", "quote": "**5/5** unanswerable questions refused", "values": {}},
+    {"id": "op_guard", "repo": "onprem-llm-stack", "quote": "**22/26**", "values": {"blocked": 22, "total": 26}},
+    {"id": "op_para", "repo": "onprem-llm-stack", "quote": "**0/4** paraphrase evasions caught", "values": {}},
+    {"id": "op_load", "repo": "onprem-llm-stack", "quote": "4 users: 4.1 req/s, **160 tok/s**", "values": {"tok_s": 160}},
+    {"id": "op_rag", "repo": "onprem-llm-stack", "quote": "best **3.97 req/s** at 2 users", "values": {"req_s": 3.97}},
+
+    {"id": "sv_q4", "repo": "llm-serving-bench", "quote": "| Peak output throughput, Q4_K_M (4 concurrent) | **381 tok/s** | 184 tok/s |", "values": {"gpu": 381, "cpu": 184}},
+    {"id": "sv_q8", "repo": "llm-serving-bench", "quote": "| Peak output throughput, Q8_0 (4 concurrent) | 358 tok/s | **328 tok/s** |", "values": {"gpu": 358, "cpu": 328}},
+    {"id": "sv_ttft", "repo": "llm-serving-bench", "quote": "| TTFT for a 3.8k-token prompt, cold | 1.91 s | 13.83 s |", "values": {"gpu": 1.91, "cpu": 13.83}},
+    {"id": "sv_prefill", "repo": "llm-serving-bench", "quote": "2,196 prompt tok/s | 330 prompt tok/s", "values": {"gpu": 2196, "cpu": 330}},
+
+    {"id": "sd_pii", "repo": "secure-data-ai", "quote": "precision **0.986**, recall 1.0 (pattern only: precision 0.680)", "values": {"precision": 0.986, "pattern_only": 0.680}},
+    {"id": "sd_policy", "repo": "secure-data-ai", "quote": "**0 of 50** bypass attempts allowed", "values": {}},
+    {"id": "sd_rag", "repo": "secure-data-ai", "quote": "unauthorised chunks **99.6% → 0**; PII entities in context **4,476 → 0**", "values": {"before_pct": 99.6, "after_pct": 0, "pii_before": 4476}},
+    {"id": "sd_llm02", "repo": "secure-data-ai", "quote": "**6/8 → 0/8**", "values": {"before": 6, "after": 0}},
+    {"id": "sd_llm01", "repo": "secure-data-ai", "quote": "7/10 → **4/10**", "values": {"before": 7, "after": 4}},
+    {"id": "sd_benign", "repo": "secure-data-ai", "quote": "| Benign questions blocked by the guards | 0/10 |", "values": {}},
+
+    {"id": "gf_gpt", "repo": "genai-foundations", "quote": "validation loss 4.72 (uniform guess) → **1.516** nats/char", "values": {"uniform": 4.72, "best": 1.516}},
+    {"id": "gf_lora", "repo": "genai-foundations", "quote": "new-corpus loss **1.758** vs 1.725 for full fine-tuning; original-corpus loss **1.642** vs 1.747", "values": {"lora_new": 1.758, "full_new": 1.725, "lora_orig": 1.642, "full_orig": 1.747}},
+    {"id": "gf_attn", "repo": "genai-foundations", "quote": "within 1.5e-7", "values": {}},
+
+    {"id": "sr_sum", "repo": "spark-rust-bench", "quote": "| **Sum** | **3.731** | **3.929** | **0.966** | **1.450** |", "values": {"pyspark": 3.731, "scala": 3.929, "polars": 0.966, "datafusion": 1.450}},
+    {"id": "sr_mem", "repo": "spark-rust-bench", "quote": "| Peak memory, 50M rows | 3,616 MiB | 5,055 MiB | 1,766 MiB | 3,588 MiB |", "values": {"pyspark": 3616, "scala": 5055, "polars": 1766}},
+    {"id": "sr_udf_builtin", "repo": "spark-rust-bench", "quote": "| Built-in `CASE WHEN` | 0.104 | 0.273 |", "values": {"s_50m": 0.273}},
+    {"id": "sr_udf_py", "repo": "spark-rust-bench", "quote": "| Python UDF (row at a time) | 1.460 | 6.613 |", "values": {"s_50m": 6.613}},
+    {"id": "sr_match", "repo": "spark-rust-bench", "quote": "60 of 60 query results are identical", "values": {}}
+  ]
+}
