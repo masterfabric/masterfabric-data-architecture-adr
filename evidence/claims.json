@@ -454,6 +454,14 @@
       "repo": "realtime-telco",
       "quote": "hard rules, adaptive z-scores and a Bernoulli CUSUM",
       "values": {}
+    },
+    {
+      "id": "af_rules",
+      "repo": "airflow-mlops",
+      "quote": "11 rules a month",
+      "values": {
+        "rules": 11
+      }
     }
   ]
 }

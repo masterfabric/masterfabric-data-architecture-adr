@@ -8,7 +8,10 @@ brackets point to the repository that runs and measures that part.
 ```mermaid
 flowchart TB
   subgraph SRC[Sources]
-    CDR[Switch CDRs] & PC[Packet-core sessions] & CRM[CRM / billing] & KPI[Radio KPIs, 10 s]
+    CDR[Switch CDRs]
+    PC[Packet-core sessions]
+    CRM[CRM / billing]
+    KPI[Radio KPIs, 10 s]
   end
   subgraph ING[Ingest]
     K[Kafka<br/>realtime-telco] --> SS[Spark Structured Streaming<br/>realtime-telco]
@@ -18,7 +21,9 @@ flowchart TB
     ICE[(Apache Iceberg v2<br/>REST catalog · S3 storage)]
   end
   subgraph CMP[Compute · ADR 0008]
-    SP[Spark<br/>big jobs] & PL[Polars / DataFusion<br/>small jobs] & TR[Trino<br/>interactive SQL]
+    SP[Spark<br/>big jobs]
+    PL[Polars / DataFusion<br/>small jobs]
+    TR[Trino<br/>interactive SQL]
   end
   subgraph AI[ML and GenAI]
     ML[Airflow + MLflow + FastAPI<br/>airflow-mlops · ADR 0003]
