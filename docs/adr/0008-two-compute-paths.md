@@ -1,4 +1,4 @@
-# ADR 0008: Two compute paths: Spark for big jobs, a single-node Rust engine for small ones
+# ADR 0008: Two compute paths: Spark for big jobs, a single-node engine for small ones
 
 - Status: accepted
 - Date: 2026-11-21
