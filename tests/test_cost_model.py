@@ -22,7 +22,7 @@ def test_onprem_rate_by_hand():
 
 def test_only_committed_capacity_gets_dearer_when_idle():
     assert cm.per_used_hour("cloud_on_demand", 0.04, 0.2) == 0.04
-    assert cm.per_used_hour("onprem", 0.01, 0.2) == 0.05
+    assert abs(cm.per_used_hour("onprem", 0.01, 0.2) - 0.05) < 1e-12
 
 
 def test_break_even_is_where_costs_meet():
