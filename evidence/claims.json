@@ -508,10 +508,12 @@
     {
       "id": "rt_exactly_once",
       "repo": "realtime-telco",
-      "quote": "Flink exactly-once sink **0** duplicates vs **4,080** at-least-once",
+      "quote": "Flink exactly-once sink **0** duplicates vs **4,080** at-least-once · Spark → Iceberg 521,044/521,044 offsets, **0** duplicates",
       "values": {
         "eo": 0,
-        "alo": 4080
+        "alo": 4080,
+        "spark_offsets": 521044,
+        "spark_dups": 0
       }
     },
     {
@@ -552,19 +554,22 @@
     {
       "id": "op_guard_v11",
       "repo": "onprem-llm-stack",
-      "quote": "| Guardrails + LLM classifier (v1.1) | **24/26**: evasions **4/4** blocked; but 2/4 PII questions now blocked too (false positives)",
+      "quote": "| Guardrails + LLM classifier (v1.1) | **24/26**: evasions **4/4** blocked; but 2/4 PII questions now blocked too (false positives) · 0/35 benign questions blocked · classifier p50 1.17 s on CPU |",
       "values": {
         "handled": 24,
-        "total": 26
+        "total": 26,
+        "benign_blocked": 0,
+        "classifier_p50_s": 1.17
       }
     },
     {
       "id": "op_heldout",
       "repo": "onprem-llm-stack",
-      "quote": "rules **0/16** → rules + classifier **10/16**",
+      "quote": "rules **0/16** → rules + classifier **10/16** · hard benign questions blocked 1/14",
       "values": {
         "rules": 0,
-        "classifier": 10
+        "classifier": 10,
+        "hard_benign_blocked": 1
       }
     },
     {
