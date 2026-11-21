@@ -12,6 +12,8 @@ number stays traceable to a lab that measured it.
   quotes, re-run `make check charts`, and say in the commit body what changed.
 - **Decisions keep their trade-offs.** An ADR states the consequences and the weak spots its
   evidence shows (for example paraphrased prompt injection), not only the wins.
+- **Costs stay reproducible.** Measured inputs in `evidence/cost_inputs.json` reference claim ids;
+  prices carry a source and a date, and assumptions are labelled as such. Run `make cost test`.
 - **Diagrams as code.** Mermaid in Markdown, images rendered by `viz/` scripts; never edit a PNG by hand.
 - One logical change per commit, Conventional Commit subject, and a body that explains why.
 

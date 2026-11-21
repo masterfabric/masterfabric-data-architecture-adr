@@ -32,6 +32,7 @@ Third-party components
 - Python standard library only for the claim checker; matplotlib (Matplotlib License), NumPy (BSD-3-Clause) and Pillow (MIT-CMU) to render images; pytest (MIT) for tests.
 - Diagrams and the hero image are rendered with the Inter and JetBrains Mono fonts (SIL OFL 1.1); the font files are not redistributed here.
 - All numbers cited come from the eight linked MasterFabric repositories, each under its own license (AGPL-3.0).
+- Cloud prices in evidence/cost_inputs.json are public list prices, quoted with their source and date; no new software dependency was added for the cost model or the C4 diagrams.
 - All container images, Python packages and other dependencies keep their own
   licenses. Product names mentioned in the documentation (Cloudera, Apache
   projects, Kubernetes, and others) are trademarks of their respective owners
