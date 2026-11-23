@@ -1,14 +1,14 @@
 {
   "about": "Every number this repository cites, with the exact README text it comes from. tools/check_claims.py verifies each quote against the source README at the pinned commit.",
   "repos": {
-    "lakehouse-lab": "2382c11",
-    "realtime-telco": "8776322",
-    "airflow-mlops": "ea335bc",
-    "onprem-llm-stack": "80b2a9c",
-    "llm-serving-bench": "0bdc279",
-    "secure-data-ai": "30bf75f",
-    "genai-foundations": "32102dd",
-    "spark-rust-bench": "8a6e137"
+    "lakehouse-lab": "6ba927f",
+    "realtime-telco": "456e642",
+    "airflow-mlops": "3546e6f",
+    "onprem-llm-stack": "bd383f7",
+    "llm-serving-bench": "83af7fe",
+    "secure-data-ai": "df8125e",
+    "genai-foundations": "9e3b863",
+    "spark-rust-bench": "361bb4a"
   },
   "claims": [
     {
@@ -366,23 +366,25 @@
     {
       "id": "sr_sum",
       "repo": "spark-rust-bench",
-      "quote": "| **Sum** | **15.975** | **15.922** | **4.325** | **4.777** | |",
+      "quote": "| **Sum** | **15.975** | **15.922** | **4.325** | **4.777** | **5.532** |",
       "values": {
         "pyspark": 15.975,
         "scala": 15.922,
         "polars": 4.325,
-        "duckdb": 4.777
+        "duckdb": 4.777,
+        "datafusion": 5.532
       }
     },
     {
       "id": "sr_mem",
       "repo": "spark-rust-bench",
-      "quote": "| Peak memory at 200M | 7.6 GiB | 7.1 GiB | 3.6 GiB | 3.2 GiB | 8 GiB (limit) | |",
+      "quote": "| Peak memory at 200M | 7.6 GiB | 7.1 GiB | 3.6 GiB | 3.2 GiB | 2.7 GiB | |",
       "values": {
         "pyspark": 7.6,
         "scala": 7.1,
         "polars": 3.6,
-        "duckdb": 3.2
+        "duckdb": 3.2,
+        "datafusion": 2.7
       }
     },
     {
@@ -404,9 +406,9 @@
     {
       "id": "sr_match",
       "repo": "spark-rust-bench",
-      "quote": "234 of 234 query results are\nidentical",
+      "quote": "**240 of 240 query results are\nidentical**",
       "values": {
-        "matched": 234
+        "matched": 240
       }
     },
     {
@@ -658,18 +660,19 @@
     {
       "id": "gf_dpo",
       "repo": "genai-foundations",
-      "quote": "reward (share of real words) 0.749 → **0.786 ± 0.006**; filtered SFT 0.771, best-of-4 0.763",
+      "quote": "reward (share of real words) 0.749 → **0.783 ± 0.006** at KL 1.2 nats; filtered SFT 0.773; best-of-4 sampling **0.918**",
       "values": {
         "reference": 0.749,
-        "dpo": 0.786,
-        "sft": 0.771,
-        "best_of_4": 0.763
+        "dpo": 0.783,
+        "sft": 0.773,
+        "best_of_4": 0.918,
+        "kl": 1.2
       }
     },
     {
       "id": "sr_scaling",
       "repo": "spark-rust-bench",
-      "quote": "| 10M (207 MiB) | 1.545 s | 1.613 s | 0.260 s | 0.310 s | 0.293 s | 5.9x |",
+      "quote": "| 10M (207 MiB) | 1.545 s | 1.613 s | 0.260 s | 0.310 s | 0.301 s | 5.9x |",
       "values": {
         "ratio_10m": 5.9
       }
@@ -677,7 +680,7 @@
     {
       "id": "sr_ratio_200m",
       "repo": "spark-rust-bench",
-      "quote": "| 200M (4,150 MiB) | 15.975 s | 15.922 s | 4.325 s | 4.777 s | killed (exit 137) | 3.7x |",
+      "quote": "| 200M (4,150 MiB) | 15.975 s | 15.922 s | 4.325 s | 4.777 s | 5.532 s | 3.7x |",
       "values": {
         "pyspark": 15.975,
         "polars": 4.325,
@@ -719,6 +722,180 @@
         "files": 20,
         "of": 92,
         "pct": 23
+      }
+    },
+    {
+      "id": "lh_maint_query",
+      "repo": "lakehouse-lab",
+      "quote": "| One-day query, median of 7 | 156.5 ms | **28.1 ms** |",
+      "values": {
+        "unmaintained_ms": 156.5,
+        "maintained_ms": 28.1
+      }
+    },
+    {
+      "id": "lh_maint_files",
+      "repo": "lakehouse-lab",
+      "quote": "| Data files + position-delete files | 74 + 10 | **5 + 0** |",
+      "values": {
+        "a_data": 74,
+        "a_deletes": 10,
+        "b_data": 5
+      }
+    },
+    {
+      "id": "rt_wm_2min",
+      "repo": "realtime-telco",
+      "quote": "| **2 min (the live setting)** | **188** | **0.65 %** | **2.5 min** |",
+      "values": {
+        "lost": 188,
+        "pct": 0.65,
+        "delay_min": 2.5
+      }
+    },
+    {
+      "id": "rt_wm_10s",
+      "repo": "realtime-telco",
+      "quote": "| 10 s | 2,999 | 9.95 % | 0.5 min |",
+      "values": {
+        "lost": 2999,
+        "pct": 9.95,
+        "delay_min": 0.5
+      }
+    },
+    {
+      "id": "rt_wm_11min",
+      "repo": "realtime-telco",
+      "quote": "| 11 min | 0 | 0 % | 11.5 min |",
+      "values": {
+        "lost": 0,
+        "delay_min": 11.5
+      }
+    },
+    {
+      "id": "am_rca",
+      "repo": "airflow-mlops",
+      "quote": "| 6 | Training labels: reproduce from lineage | **supported** (0.8297 vs 0.4414; 0.4484 on its own training labels) | ruled out (0.8297 = 0.8297) |",
+      "values": {
+        "reproduced": 0.8297,
+        "registered": 0.4414
+      }
+    },
+    {
+      "id": "am_drift_watch",
+      "repo": "airflow-mlops",
+      "quote": "retrain **promoted** v11: 0.819 vs 0.7796; the API served it 4.1 s later",
+      "values": {
+        "v11": 0.819,
+        "champion": 0.7796,
+        "served_s": 4.1
+      }
+    },
+    {
+      "id": "lsb_air",
+      "repo": "llm-serving-bench",
+      "quote": "| llama.cpp Q4_K_M, 1 request (tok/s) | 164 | 107 | 0.65x |",
+      "values": {
+        "m4": 164,
+        "air": 107,
+        "ratio": 0.65
+      }
+    },
+    {
+      "id": "lsb_spec_tie",
+      "repo": "llm-serving-bench",
+      "quote": "| Top-1 vs top-2 log-prob gap at that token | 0.002-0.034 nats | 0.005, 0.008 nats |",
+      "values": {
+        "lo": 0.002,
+        "hi": 0.034
+      }
+    },
+    {
+      "id": "op_guard_v12",
+      "repo": "onprem-llm-stack",
+      "quote": "attacks caught **18/24 → 22/24**, benign blocked **2/20 → 4/20**",
+      "values": {
+        "v11_caught": 18,
+        "v12_caught": 22,
+        "v11_fp": 2,
+        "v12_fp": 4
+      }
+    },
+    {
+      "id": "op_rag_precision",
+      "repo": "onprem-llm-stack",
+      "quote": "| Context precision | 0.650 | **0.878** |",
+      "values": {
+        "vector": 0.65,
+        "rerank": 0.878
+      }
+    },
+    {
+      "id": "sd_clarify",
+      "repo": "secure-data-ai",
+      "quote": "| **Held-out v2, fresh (12 + 12)** | 3/12 → **0/12** | 3/12 → 3/12 |",
+      "values": {
+        "blocked_before": 3,
+        "blocked_after": 0,
+        "attacks": 3
+      }
+    },
+    {
+      "id": "sd_clarify_latency",
+      "repo": "secure-data-ai",
+      "quote": "p50 753 ms against 368 ms",
+      "values": {
+        "clarified_ms": 753,
+        "direct_ms": 368
+      }
+    },
+    {
+      "id": "sr_df_mimalloc",
+      "repo": "spark-rust-bench",
+      "quote": "| `MIMALLOC_TARGET_SEGMENTS_PER_THREAD=2` | 679 MiB | 1,080 MiB | 1,841 MiB | 2,776 MiB |",
+      "values": {
+        "mib_10m": 679,
+        "mib_200m": 2776
+      }
+    },
+    {
+      "id": "sr_df_default",
+      "repo": "spark-rust-bench",
+      "quote": "| Default allocator settings (first round) | 1,653 MiB | 3,575 MiB | 6,652 MiB | killed at 8,192 |",
+      "values": {
+        "mib_10m": 1653,
+        "mib_100m": 6652
+      }
+    },
+    {
+      "id": "sr_ntz_repro",
+      "repo": "spark-rust-bench",
+      "quote": "it reads 7 and skips 23 (44 and 42 ms)",
+      "values": {
+        "read": 7,
+        "skipped": 23,
+        "ms_ntz": 44
+      }
+    },
+    {
+      "id": "gf_dpo_iter",
+      "repo": "genai-foundations",
+      "quote": "unseen test prompts: 0.763 → 0.792 (round 1) → **0.822** (round 2, on-policy pairs)",
+      "values": {
+        "reference": 0.763,
+        "round1": 0.792,
+        "round2": 0.822
+      }
+    },
+    {
+      "id": "gf_cfg",
+      "repo": "genai-foundations",
+      "quote": "requested class 23% → **100%** → 100%; judge-feature Fréchet 1.93 → **0.57** → 41.3",
+      "values": {
+        "uncond_pct": 23,
+        "frechet_w0": 1.93,
+        "frechet_w1": 0.57,
+        "frechet_w8": 41.3
       }
     }
   ]
