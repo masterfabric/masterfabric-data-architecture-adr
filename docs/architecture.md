@@ -31,7 +31,7 @@ flowchart TB
     ML[Airflow + MLflow + Feast + FastAPI<br/>canary releases<br/>airflow-mlops · ADR 0003/0011]
     LLM[Helm: llama.cpp / vLLM, pgvector, RAG<br/>onprem-llm-stack · ADR 0004/0005]
   end
-  GOV[[Governance: PII masking, role policies, hash-chained audit,<br/>KVKK erasure, policy-aware retrieval, two guard layers<br/>secure-data-ai · ADR 0006/0012]]
+  GOV[[Governance: PII masking, role policies, hash-chained audit,<br/>KVKK erasure, GDPR/CCPA/KVKK request deadlines,<br/>policy-aware retrieval, two guard layers<br/>secure-data-ai · ADR 0006/0012/0013]]
   KPI --> K
   CDR & PC & CRM --> B
   SS --> ICE
@@ -99,7 +99,25 @@ flowchart LR
   G3 --> A[Answer or refusal]
 ```
 
-## 5. Choosing a compute path for a new job (ADR 0008)
+## 5. A data-subject request, intake to response (ADR 0006 and 0013)
+
+Not legal advice: the periods are one simplified engineering reading; see the
+[comparison in secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai/blob/main/docs/dsr-gdpr-ccpa-kvkk.md).
+
+```mermaid
+flowchart LR
+  IN[Intake<br/>receipt date · law · type] --> DL[Deadline rule table<br/>GDPR 1 calendar month · CCPA 45 days<br/>opt-out 15 business days · KVKK 30 days]
+  DL --> V{Verify identity<br/>2 factors · CCPA opt-out 1}
+  V -- not enough --> NI[Ask for more information] --> V
+  V -- verified --> P[Process<br/>access · erasure · consent / opt-out]
+  P -- post-checks pass --> R[Respond<br/>on time vs due date]
+  P -- post-checks fail --> T
+  DL -.->|notice on or before due date| EX[Extension<br/>GDPR +2 months · CCPA +45 days]
+  DL -.-> T[Tracker<br/>ok · due soon · overdue]
+  IN & V & P & R -.-> L[(Hash-chained audit<br/>subject as pseudonym)]
+```
+
+## 6. Choosing a compute path for a new job (ADR 0008)
 
 ```mermaid
 flowchart TD
@@ -112,7 +130,7 @@ flowchart TD
   U -- yes --> B[Built-ins, then Arrow UDF,<br/>Scala for hot paths]
 ```
 
-## 6. Mapping to a Cloudera estate
+## 7. Mapping to a Cloudera estate
 
 | Layer | Lab implementation | Cloudera Data Platform |
 |---|---|---|
@@ -122,4 +140,4 @@ flowchart TD
 | Interactive SQL | Trino | Cloudera Data Warehouse (Impala, Hive) |
 | ML lifecycle | Airflow, MLflow, Feast, Evidently, FastAPI canary | CDE Airflow, Cloudera Machine Learning registry, feature store and serving |
 | LLM serving | Helm chart, llama.cpp / vLLM, pgvector, reranker, Prometheus + Grafana | Cloudera AI Inference service, CML on GPU nodes |
-| Governance | PII detectors, role policies, retrieval filter, hash-chained audit, erasure | Ranger, Atlas, Cloudera Data Catalog (SDX) |
+| Governance | PII detectors, role policies, retrieval filter, hash-chained audit, erasure, request deadlines | Ranger, Atlas, Cloudera Data Catalog (SDX) |

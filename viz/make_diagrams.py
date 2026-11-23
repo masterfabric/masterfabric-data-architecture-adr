@@ -30,7 +30,7 @@ def platform():
         PURPLE, line_size=17)
     # cross-cutting
     box(d, (50, 830, 1000, 960), "Governance across every layer", ["PII masking · column/row policies · hash-chained audit · KVKK erasure",
-                                                                    "policy-aware retrieval · two injection layers · secure-data-ai"],
+                                                                    "GDPR/CCPA/KVKK request deadlines · retrieval filter · two guard layers · secure-data-ai"],
         RED, line_size=17)
     box(d, (1040, 830, 1550, 960), "Team foundations", ["Transformer, LoRA, WGAN-GP, diffusion,", "DPO and RL from scratch",
                                                         "genai-foundations"], GREEN, line_size=17)
@@ -66,14 +66,14 @@ def c4_context():
     d.text((60, 36), "C4 level 1 · System context", font=font(34, 800), fill=WHITE)
     d.text((60, 82), "Who uses the platform and which systems it exchanges data with.", font=font(20, 450), fill=GREY)
     people = [("NOC engineer", ["typed alarms per cell"]), ("Analyst / data scientist", ["SQL, features, models"]),
-              ("Customer-care agent", ["asks the RAG assistant"]), ("Data protection officer", ["KVKK erasure, audit"])]
+              ("Customer-care agent", ["asks the RAG assistant"]), ("Data protection officer", ["GDPR/CCPA/KVKK requests, audit"])]
     xs = [230, 620, 1010, 1400]
     for cx, (t, ln) in zip(xs, people):
         person(d, cx, 130, t, ln, ICE)
     box(d, (360, 430, 1240, 640), "MasterFabric data and AI platform",
         ["lakehouse · streaming · batch compute · ML lifecycle", "on-prem LLMs with RAG · governance across all layers",
          "built and measured by 8 labs"], YELLOW, title_size=28, line_size=19)
-    for cx, lab in zip(xs, ["alarms", "SQL, models", "questions", "erasure, audit"]):
+    for cx, lab in zip(xs, ["alarms", "SQL, models", "questions", "requests, audit"]):
         arrow(d, (cx, 320), (min(max(cx, 420), 1180), 430), ICE, lab, at=0.45)
     ext = [("Radio network", ["KPI reports (10 s)", "via Kafka"]), ("Mediation", ["switch CDR files"]),
            ("Packet core", ["data sessions"]), ("CRM and billing", ["subscribers, plans"]),
@@ -110,7 +110,7 @@ def c4_container():
         "onprem-llm-stack · llm-serving-bench"], PURPLE, 21, s)
     box(d, (1140, 640, 1540, 820), "Observability", ["Prometheus · Grafana", "Marquez lineage", "onprem-llm-stack, lakehouse-lab"],
         GREY, 21, s)
-    box(d, (480, 870, 1540, 980), "Governance services", ["PII masking · policies · hash-chained audit · KVKK erasure · secure-data-ai"],
+    box(d, (480, 870, 1540, 980), "Governance services", ["PII masking · policies · hash-chained audit · erasure · request deadlines · secure-data-ai"],
         RED, 21, s)
     arrow(d, (230, 340), (230, 400), ORANGE, "consume")
     arrow(d, (400, 480), (560, 400), ORANGE, "commit", at=0.45)
