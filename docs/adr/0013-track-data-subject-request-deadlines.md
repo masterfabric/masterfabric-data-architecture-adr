@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-23
-- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (`fe90c23`):
+- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (`fe90c23`; the flat-30-days figure is in its README from `8ef6054`):
   [README section 8](https://github.com/masterfabric/masterfabric-secure-data-ai#8-data-subject-requests-gdpr-ccpa-kvkk),
   [lab ADR 0008](https://github.com/masterfabric/masterfabric-secure-data-ai/blob/main/docs/adr/0008-dsr-deadline-tracking.md),
   [comparison of the three laws](https://github.com/masterfabric/masterfabric-secure-data-ai/blob/main/docs/dsr-gdpr-ccpa-kvkk.md)
@@ -47,6 +47,7 @@ call the tracker, but the rule stays a pure function).
 | Latency per request, p50 / p95 | access 2.1 / 2.7 ms; consent withdrawal 1.5 / 2.1 ms; erasure 117 / 141 ms |
 | Residual rows after 180 erasures | 0 outside 360 retained invoice rows |
 | Deadline sweep, 731 receipt dates (2027-2028) | GDPR month lands 28-31 days out |
+| Same sweep, flat 30 days instead of the calendar month | a flat 30 days would differ from the calendar month on 481 of 731 receipt dates |
 | Audit log | 0 raw identifiers in 2,340 audit entries, chain verified |
 | Unit tests | 98, including month-end and leap-year deadlines |
 

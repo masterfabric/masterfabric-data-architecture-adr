@@ -6,7 +6,7 @@
     "airflow-mlops": "3546e6f",
     "onprem-llm-stack": "bd383f7",
     "llm-serving-bench": "83af7fe",
-    "secure-data-ai": "fe90c23",
+    "secure-data-ai": "8ef6054",
     "genai-foundations": "9e3b863",
     "spark-rust-bench": "361bb4a"
   },
@@ -929,6 +929,15 @@
         "gdpr_min_days": 28,
         "gdpr_max_days": 31,
         "audit_entries": 2340
+      }
+    },
+    {
+      "id": "sd_dsr_flat30",
+      "repo": "secure-data-ai",
+      "quote": "a flat 30 days would differ from the calendar month on 481 of 731 receipt dates",
+      "values": {
+        "flat30_differs": 481,
+        "receipt_dates": 731
       }
     }
   ]
