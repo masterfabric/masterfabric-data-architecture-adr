@@ -7,14 +7,14 @@ that ran it and every number is checked against that lab.**
 
 Eight MasterFabric repositories each build and measure one part of the platform on a laptop:
 lakehouse, streaming, MLOps, on-prem LLMs, LLM serving, data security, generative AI basics and
-batch compute. This repository ties them together: twelve architecture decision records (ADRs),
+batch compute. This repository ties them together: thirteen architecture decision records (ADRs),
 C4 and Mermaid diagrams of the whole platform, a cost model built on measured throughput, a
-Cloudera mapping, and a checker that verifies all 100 cited numbers against the source READMEs at
+Cloudera mapping, and a checker that verifies all 103 cited numbers against the source READMEs at
 pinned commits.
 
 ```text
 $ make check
-100/100 claims verified (GitHub at pinned commits)
+103/103 claims verified (GitHub at pinned commits)
 ```
 
 ## The platform
@@ -75,6 +75,7 @@ classifiers on held-out attacks. Values come from evidence/claims.json.</em></p>
 | [0010](docs/adr/0010-streaming-engine.md) | Flink for new low-latency streams; Spark where Spark already runs | Flink 3.07 s vs Spark 10.54 s, CPU 12 % vs 83 %; exactly-once 0 vs 4,080 duplicates | [realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) |
 | [0011](docs/adr/0011-release-models-through-canary.md) | Release models through a canary and a feature store | v6 rolled back at 5 %; v5 promoted (ΔAUC −0.0007); 0 of 194,913 rows differ in point-in-time joins | [airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) |
 | [0012](docs/adr/0012-evaluate-guards-on-held-out-attacks.md) | Judge LLM guardrails on held-out attacks and legitimate traffic | held-out: 0/16 → 10/16 stopped (on-prem), 7/12 → 1/12 succeed (governed); 3/22 legitimate questions blocked | [onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack), [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
+| [0013](docs/adr/0013-track-data-subject-request-deadlines.md) | Track GDPR, CCPA and KVKK request deadlines with one rule table and pure date functions (not legal advice) | 540/540 requests on time over 200,000 customers; erasure p50 117 ms, 0 residual rows outside 360 retained invoice rows; GDPR month lands 28-31 days out | [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
 
 ADRs 0001-0008 each carry a dated "Update 2026-11-21" section that re-states the decision with the
 new evidence and points to the ADR that extends it. ADRs 0001, 0002, 0003, 0005, 0007, 0008 and 0012
@@ -130,7 +131,7 @@ flowchart LR
   C --> K[tools/check_claims.py]
   K --> G[README of the lab<br/>at the pinned commit]
   K --> V{quote present?<br/>values inside quote?}
-  V -- yes --> OK[100/100 verified]
+  V -- yes --> OK[103/103 verified]
   V -- no --> F[fail: fix or re-pin]
 ```
 

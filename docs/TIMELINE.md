@@ -130,3 +130,25 @@ results. Times are Europe/Istanbul.
   model). The old quote still matched at the previous pin, which is the checker's known limit: it
   proves where a number comes from, not that it is right. ADR 0007 now says best-of-4 is ahead.
 - On-prem costs are still assumptions; no real quote was obtained this round.
+
+## Addition: data-subject request deadlines (2026-11-23)
+
+Times are Europe/Istanbul. secure-data-ai added a GDPR / CCPA / KVKK request workflow with a deadline engine
+(its commits `e7fe5c3` to `fe90c23`); this repository records the design decision and pins the evidence.
+
+| Change | Detail |
+|---|---|
+| ADR 0013 | Track request deadlines with one rule table and pure date functions; calendar-month clamping for GDPR; not legal advice |
+| ADR 0006 | "Update 2026-11-23" section pointing to ADR 0013 |
+| Evidence | secure-data-ai re-pinned `df8125e` → `fe90c23`; 3 new claims (`sd_dsr`, `sd_dsr_latency`, `sd_dsr_deadlines`), 103 in all |
+
+### Verification
+
+| Check | Result |
+|---|---|
+| `make check` (GitHub at pinned commits) | 103/103 claims verified |
+| `make check-local` | 103/103 claims verified |
+| `make test` | 10 passed |
+
+The hero image and the evidence figure still show the earlier counts (twelve ADRs, 100 numbers); they were not
+regenerated in this step.
