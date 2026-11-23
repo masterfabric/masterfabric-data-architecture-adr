@@ -38,6 +38,8 @@ PANELS = [
      "+ classifier", C["op_heldout"]["classifier"], False, "ADR 0012", "PURPLE"),
     ("Guard classifier, governed", "held-out injections that work, of 12", "rules", C["sd_heldout"]["before"],
      "+ classifier", C["sd_heldout"]["after"], True, "ADR 0012", "RED"),
+    ("Request deadline rule (GDPR)", "receipt dates off the calendar-month due date, of 731", "flat 30 days",
+     C["sd_dsr_flat30"]["flat30_differs"], "rule table", 0, True, "ADR 0013", "RED"),
 ]
 
 
@@ -48,7 +50,10 @@ def fmt(v):
 
 
 def evidence():
-    fig, axes = plt.subplots(3, 4, figsize=(18, 12.4))
+    rows = -(-len(PANELS) // 4)
+    fig, axes = plt.subplots(rows, 4, figsize=(18, 4.13 * rows))
+    for a in axes.flat[len(PANELS):]:
+        a.axis("off")
     for a, (title, unit, l0, v0, l1, v1, lower, adr, col) in zip(axes.flat, PANELS):
         bars = a.bar([0, 1], [v0, v1], 0.62, color=[HEX["GREY"], HEX[col]])
         top = max(v0, v1)
@@ -66,9 +71,11 @@ def evidence():
         if not title.startswith("Evidence"):
             a.set_ylim(0, top * 1.18)
         a.grid(axis="x", visible=False)
-    fig.suptitle("Each decision, measured: the same metric without it (grey) and with it", x=0.01, ha="left",
+    n_adr = len(list((ROOT / "docs" / "adr").glob("0*.md")))
+    fig.suptitle(f"Each decision, measured: the same metric without it (grey) and with it · {n_adr} ADRs · "
+                 f"{len(json.loads((ROOT / 'evidence' / 'claims.json').read_text())['claims'])} verified numbers", x=0.01, ha="left",
                  fontsize=15, fontweight="bold", color=HEX["WHITE"])
-    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    fig.tight_layout(rect=(0, 0, 1, 1 - 0.05 * 3 / rows))
     fig.savefig(IMG / "evidence.png", dpi=150)
 
 
@@ -167,7 +174,7 @@ def cost():
 
 
 if __name__ == "__main__":
-    evidence()
-    cost()
-    round2()
+    import sys
+    for name in sys.argv[1:] or ["evidence", "cost", "round2"]:
+        globals()[name]()
     print("chart written")
