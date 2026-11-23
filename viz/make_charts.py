@@ -72,6 +72,48 @@ def evidence():
     fig.savefig(IMG / "evidence.png", dpi=150)
 
 
+# Second round (2026-11-23): what each lab learned when it was pushed further. Same layout as PANELS.
+ROUND2 = [
+    ("Iceberg table maintenance", "one-day query after 60 batches, ms", "never", C["lh_maint_query"]["unmaintained_ms"],
+     "every 20 batches", C["lh_maint_query"]["maintained_ms"], True, "ADR 0001", "ICE"),
+    ("Watermark delay", "late reports lost, of 172,800", "10 s", C["rt_wm_10s"]["lost"],
+     "2 min (live)", C["rt_wm_2min"]["lost"], True, "ADR 0002", "ORANGE"),
+    ("Drift-triggered retrain", "realised AUC, axis from 0.70", "champion", C["am_drift_watch"]["champion"],
+     "promoted v11", C["am_drift_watch"]["v11"], False, "ADR 0003", "GREEN"),
+    ("Guard threshold v1.2", "fresh held-out attacks caught, of 24", "v1.1", C["op_guard_v12"]["v11_caught"],
+     "v1.2", C["op_guard_v12"]["v12_caught"], False, "ADR 0012", "PURPLE"),
+    ("Clarify instead of block", "legitimate questions blocked, of 12", "block", C["sd_clarify"]["blocked_before"],
+     "clarify", C["sd_clarify"]["blocked_after"], True, "ADR 0012", "RED"),
+    ("Serving hardware", "llama.cpp Q4_K_M tok/s, 1 request", "Air M5", C["lsb_air"]["air"],
+     "M4 Pro", C["lsb_air"]["m4"], False, "ADR 0005", "PURPLE"),
+    ("DataFusion allocator cap", "peak memory at 10M rows, MiB", "default", C["sr_df_default"]["mib_10m"],
+     "segments capped", C["sr_df_mimalloc"]["mib_10m"], True, "ADR 0008", "YELLOW"),
+    ("On-policy DPO round", "reward on unseen prompts, axis from 0.70", "round 1", C["gf_dpo_iter"]["round1"],
+     "round 2", C["gf_dpo_iter"]["round2"], False, "ADR 0007", "GREEN"),
+]
+
+
+def round2():
+    fig, axes = plt.subplots(2, 4, figsize=(18, 8.6))
+    for a, (title, unit, l0, v0, l1, v1, lower, adr, col) in zip(axes.flat, ROUND2):
+        base = 0.7 if "axis from 0.70" in unit else 0
+        bars = a.bar([0, 1], [v0 - base, v1 - base], 0.62, bottom=base, color=[HEX["GREY"], HEX[col]])
+        top = max(v0, v1) - base
+        for b, v in zip(bars, (v0, v1)):
+            a.text(b.get_x() + b.get_width() / 2, v + top * 0.02, fmt(v), ha="center", va="bottom",
+                   fontsize=12, fontweight="bold", color=HEX["WHITE"])
+        a.set_xticks([0, 1], [l0, l1], fontsize=10)
+        a.set_title(f"{title}\n", loc="left", fontsize=12.5, fontweight="bold")
+        a.text(0, 1.02, f"{unit} · {'lower' if lower else 'higher'} is better · {adr}", transform=a.transAxes,
+               fontsize=9, color=HEX["GREY"])
+        a.set_ylim(base, base + top * 1.18)
+        a.grid(axis="x", visible=False)
+    fig.suptitle("Second round (2026-11-23): each lab pushed one step further, same metric before (grey) and after",
+                 x=0.01, ha="left", fontsize=15, fontweight="bold", color=HEX["WHITE"])
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.savefig(IMG / "round2.png", dpi=150)
+
+
 OPTIONS = [("cloud_on_demand", "Cloud on demand", "GREY"), ("cloud_reserved_1y", "Cloud 1-year reserved", "ICE"),
            ("cloud_reserved_3y", "Cloud 3-year reserved", "PURPLE"), ("onprem", "On-prem server (assumed)", "GREEN")]
 
@@ -127,4 +169,5 @@ def cost():
 if __name__ == "__main__":
     evidence()
     cost()
+    round2()
     print("chart written")
