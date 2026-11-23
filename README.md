@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/hero.png" alt="MasterFabric Data Architecture: eight labs, twelve ADRs, 82 verified numbers" width="100%"></p>
+<p align="center"><img src="docs/hero.png" alt="MasterFabric Data Architecture: eight labs, twelve ADRs, 100 verified numbers" width="100%"></p>
 
 # MasterFabric Data Architecture
 
@@ -9,12 +9,12 @@ Eight MasterFabric repositories each build and measure one part of the platform 
 lakehouse, streaming, MLOps, on-prem LLMs, LLM serving, data security, generative AI basics and
 batch compute. This repository ties them together: twelve architecture decision records (ADRs),
 C4 and Mermaid diagrams of the whole platform, a cost model built on measured throughput, a
-Cloudera mapping, and a checker that verifies all 82 cited numbers against the source READMEs at
+Cloudera mapping, and a checker that verifies all 100 cited numbers against the source READMEs at
 pinned commits.
 
 ```text
 $ make check
-82/82 claims verified (GitHub at pinned commits)
+100/100 claims verified (GitHub at pinned commits)
 ```
 
 ## The platform
@@ -69,20 +69,38 @@ classifiers on held-out attacks. Values come from evidence/claims.json.</em></p>
 | [0004](docs/adr/0004-onprem-llm-platform.md) | On-prem LLMs, RAG and layered guardrails on Kubernetes | hit@4 0.933; accuracy 0.767; 22/26 attacks handled by rules, 24/26 with the classifier; reranker hit@1 0.833 → 0.933 | [onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) |
 | [0005](docs/adr/0005-measure-serving-choices.md) | Serving hardware and quantisation chosen by measurement | CPU: Q8_0 328 vs Q4_K_M 184 tok/s; GPU: 381 vs 358; TTFT 1.91 s vs 13.83 s; MLX 210 vs 171 tok/s; speculative 1.60x / 1.73x on code | [llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) |
 | [0006](docs/adr/0006-govern-data-before-ai.md) | Governance enforced before data reaches a model | PII precision 0.986; 0 of 50 bypasses; unauthorised chunks 99.6% → 0; audit chain 3/3 tamper drills; erasure 0 residual rows | [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
-| [0007](docs/adr/0007-understand-the-models.md) | First-principles team knowledge; LoRA for adaptation | attention within 1.5e-7 of SDPA; LoRA 1.758 vs 1.725 full FT; WGAN-GP and diffusion 8 of 8 modes; DPO reward 0.749 → 0.786 | [genai-foundations](https://github.com/masterfabric/masterfabric-genai-foundations) |
-| [0008](docs/adr/0008-two-compute-paths.md) | Spark for big jobs, a single-node engine (Polars or DuckDB) for small ones | 200M rows: 4.325 s (Polars), 4.777 s (DuckDB) vs 15.975 s (PySpark); 234 of 234 identical; Python UDF 24.754 s vs built-in 0.846 s | [spark-rust-bench](https://github.com/masterfabric/masterfabric-spark-rust-bench) |
+| [0007](docs/adr/0007-understand-the-models.md) | First-principles team knowledge; LoRA for adaptation | attention within 1.5e-7 of SDPA; LoRA 1.758 vs 1.725 full FT; WGAN-GP and diffusion 8 of 8 modes; DPO reward 0.749 → 0.783, best-of-4 0.918 (corrected 2026-11-23); guidance: 23% → 100% on class | [genai-foundations](https://github.com/masterfabric/masterfabric-genai-foundations) |
+| [0008](docs/adr/0008-two-compute-paths.md) | Spark for big jobs, a single-node engine (Polars or DuckDB) for small ones | 200M rows: 4.325 s (Polars), 4.777 s (DuckDB) vs 15.975 s (PySpark), DataFusion 5.532 s with its allocator capped; 240 of 240 identical; Python UDF 24.754 s vs built-in 0.846 s | [spark-rust-bench](https://github.com/masterfabric/masterfabric-spark-rust-bench) |
 | [0009](docs/adr/0009-cost-onprem-vs-cloud.md) | Place workloads by measured cost per unit of work | on-prem beats on demand above 17 % utilisation; Q8 LLM $0.207 vs $0.120 per 1M tokens at 30 %; engine and format choices are 1.8x to 6.9x | cost model below |
 | [0010](docs/adr/0010-streaming-engine.md) | Flink for new low-latency streams; Spark where Spark already runs | Flink 3.07 s vs Spark 10.54 s, CPU 12 % vs 83 %; exactly-once 0 vs 4,080 duplicates | [realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) |
 | [0011](docs/adr/0011-release-models-through-canary.md) | Release models through a canary and a feature store | v6 rolled back at 5 %; v5 promoted (ΔAUC −0.0007); 0 of 194,913 rows differ in point-in-time joins | [airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) |
 | [0012](docs/adr/0012-evaluate-guards-on-held-out-attacks.md) | Judge LLM guardrails on held-out attacks and legitimate traffic | held-out: 0/16 → 10/16 stopped (on-prem), 7/12 → 1/12 succeed (governed); 3/22 legitimate questions blocked | [onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack), [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
 
 ADRs 0001-0008 each carry a dated "Update 2026-11-21" section that re-states the decision with the
-new evidence and points to the ADR that extends it.
+new evidence and points to the ADR that extends it. ADRs 0001, 0002, 0003, 0005, 0007, 0008 and 0012
+also carry an "Update 2026-11-23" section from the second round (below).
+
+### Second round (2026-11-23)
+
+<p align="center"><img src="docs/images/round2.png" alt="Eight panels: Iceberg maintenance, watermark delay, drift-triggered retrain, guard v1.2, clarify instead of block, Air vs M4 Pro, DataFusion allocator cap, on-policy DPO round; each the same metric before and after" width="100%"></p>
+<p align="center"><em>Figure 6. One step further in each lab, read from evidence/claims.json like Figure 5. Two panels
+use an axis that starts at 0.70.</em></p>
+
+| Lab | What was added | Verified result | ADR |
+|---|---|---|---|
+| lakehouse-lab | Scheduled table maintenance, orphan cleanup with an age guard | one-day query 156.5 ms unmaintained vs 28.1 ms maintained after 60 batches | 0001 |
+| realtime-telco | Watermark sweep on a recorded delivery | 10 s: 2,999 reports lost; 2 min: 188 (0.65 %) after 2.5 min; 11 min: 0 after 11.5 min | 0002 |
+| airflow-mlops | RCA from lineage; drift-triggered retraining | v6 labels reproduce 0.8297 vs 0.4414; v11 promoted at 0.819, served 4.1 s later | 0003 |
+| llm-serving-bench | Why speculative output differs; MacBook Air M5 | mismatches at near-ties (0.002-0.034 nats); Air 107 vs M4 Pro 164 tok/s | 0005 |
+| onprem-llm-stack | Guard v1.2 on a fresh held-out set; RAG judge | caught 18/24 → 22/24, benign blocked 2/20 → 4/20; context precision 0.650 → 0.878 with the reranker | 0012 |
+| secure-data-ai | Clarify instead of block | legitimate blocked 3/12 → 0/12; attacks 3/12 unchanged; p50 753 vs 368 ms | 0012 |
+| genai-foundations | Classifier-free guidance; iterative DPO; a measurement bug fixed | on class 23% → 100%; DPO 0.763 → 0.792 → 0.822 on unseen prompts; best-of-4 0.918 | 0007 |
+| spark-rust-bench | DataFusion memory cause; NTZ pruning repro | 10M peak 1,653 → 679 MiB, 200M finishes at 2,776 MiB; NTZ literal reads 7 files, skips 23 | 0008 |
 
 ## Cost per unit of work
 
 <p align="center"><img src="docs/images/cost.png" alt="Left: LLM cost per million tokens against utilisation for on-demand, reserved and on-prem capacity, with break-even lines at 17, 45 and 66 percent. Right: SQL cost per 1,000 runs for Polars, DuckDB and PySpark under the four options" width="100%"></p>
-<p align="center"><em>Figure 6. Left: cost of one million Q8_0 output tokens on CPU against how busy the committed
+<p align="center"><em>Figure 7. Left: cost of one million Q8_0 output tokens on CPU against how busy the committed
 capacity is; on demand is flat because idle time is not paid. Right: cost of 1,000 runs of the
 six-query, 200M-row SQL job at 30 % utilisation.</em></p>
 
@@ -112,7 +130,7 @@ flowchart LR
   C --> K[tools/check_claims.py]
   K --> G[README of the lab<br/>at the pinned commit]
   K --> V{quote present?<br/>values inside quote?}
-  V -- yes --> OK[82/82 verified]
+  V -- yes --> OK[100/100 verified]
   V -- no --> F[fail: fix or re-pin]
 ```
 
@@ -157,7 +175,8 @@ With the eight labs cloned next to this repository, `make check-local` verifies 
   the pinned commit; the labs' own tests and limitations cover whether the measurement is right.
 - **The cost model is a model.** Throughput is measured; cloud prices are list prices for one
   instance type and region on one date; the on-prem figures are assumptions, not a quote, and leave
-  out staff, network, licences and spare capacity. Re-run `make cost` with real quotes before deciding.
+  out staff, network, licences and spare capacity. Re-run `make cost` with real quotes before deciding. As of 2026-11-23 no real quote has been obtained; the
+  second round changed no cost input, and `make cost` gives the same results.
 - **C4 views show the target.** Containers drawn as connected (for example Flink writing to the
   lakehouse that the RAG API reads) run in separate labs today.
 - **Not measured here:** GPU serving with vLLM, multi-node Spark or Flink, and the Cloudera services
