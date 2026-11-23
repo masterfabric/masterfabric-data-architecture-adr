@@ -47,3 +47,10 @@ users do not apply by themselves to a RAG pipeline or a chatbot.
   drills detected, 26 µs per append.
 - **KVKK erasure** for 50 subjects left 0 residual rows outside the 100 invoice rows kept for legal
   retention, p50 108 ms per erasure request.
+
+## Update 2026-11-23: data-subject requests with tracked deadlines (secure-data-ai `fe90c23`)
+
+- Erasure is now one of three request types (access, erasure, consent withdrawal / CCPA opt-out) in a workflow
+  with per-law response deadlines for GDPR, CCPA/CPRA and KVKK. 540/540 requests completed on time over 200,000
+  customers; erasure p50 117 ms with 0 residual rows outside 360 retained invoice rows.
+- The deadline design is recorded in [ADR 0013](0013-track-data-subject-request-deadlines.md). Not legal advice.

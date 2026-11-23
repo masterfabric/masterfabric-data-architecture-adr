@@ -14,6 +14,7 @@
 | [0010](0010-streaming-engine.md) | Flink for new low-latency streams; Spark where Spark already runs | realtime-telco |
 | [0011](0011-release-models-through-canary.md) | Release models through a canary and a feature store | airflow-mlops |
 | [0012](0012-evaluate-guards-on-held-out-attacks.md) | Judge LLM guardrails on held-out attacks and legitimate traffic | onprem-llm-stack, secure-data-ai |
+| [0013](0013-track-data-subject-request-deadlines.md) | Track GDPR, CCPA and KVKK request deadlines with one rule table and pure date functions | secure-data-ai |
 
 Format: context, decision, evidence (numbers from the linked lab, verified by
 `tools/check_claims.py`), consequences. Each lab also keeps its own detailed ADRs. ADRs 0001-0008 carry a dated
