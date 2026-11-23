@@ -6,7 +6,7 @@
     "airflow-mlops": "3546e6f",
     "onprem-llm-stack": "bd383f7",
     "llm-serving-bench": "83af7fe",
-    "secure-data-ai": "df8125e",
+    "secure-data-ai": "fe90c23",
     "genai-foundations": "9e3b863",
     "spark-rust-bench": "361bb4a"
   },
@@ -896,6 +896,39 @@
         "frechet_w0": 1.93,
         "frechet_w1": 0.57,
         "frechet_w8": 41.3
+      }
+    },
+    {
+      "id": "sd_dsr",
+      "repo": "secure-data-ai",
+      "quote": "**540/540** completed on time; erasure p50 117 ms; **0** residual rows outside 360 retained invoice rows",
+      "values": {
+        "requests_on_time": 540,
+        "erasure_p50_ms": 117,
+        "residual_rows": 0,
+        "retained_invoice_rows": 360
+      }
+    },
+    {
+      "id": "sd_dsr_latency",
+      "repo": "secure-data-ai",
+      "quote": "access 2.1 / 2.7 ms; consent withdrawal 1.5 / 2.1 ms; erasure 117 / 141 ms",
+      "values": {
+        "access_p50_ms": 2.1,
+        "access_p95_ms": 2.7,
+        "consent_p50_ms": 1.5,
+        "consent_p95_ms": 2.1,
+        "erasure_p95_ms": 141
+      }
+    },
+    {
+      "id": "sd_dsr_deadlines",
+      "repo": "secure-data-ai",
+      "quote": "GDPR month lands 28-31 days out; 0 raw identifiers in 2,340 audit entries",
+      "values": {
+        "gdpr_min_days": 28,
+        "gdpr_max_days": 31,
+        "audit_entries": 2340
       }
     }
   ]
