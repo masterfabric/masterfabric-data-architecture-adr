@@ -97,3 +97,36 @@ secure `30bf75f`, genai `32102dd`, spark `8a6e137`). Times are Europe/Istanbul (
   on-prem server is an assumption; the ADR says to re-run with real quotes. Committed capacity is
   more expensive than on demand below its break-even (66 %, 45 %, 17 %), which the cost chart shows.
 - `fffb223` also contains the platform-diagram code change; its image is in `8c71622`.
+
+## Addition: second round of the labs (2026-11-23)
+
+Every lab was pushed one step further on 2026-11-23; this repository re-pins them and cites the new
+results. Times are Europe/Istanbul.
+
+| Commit | Time | What |
+|---|---|---|
+| `bc8b507` | 2026-11-23 13:37 | evidence: re-pin all eight labs to their 2026-11-23 heads; 18 new claims from the second round; DataFusion and DPO claims follow the corrected READMEs (100 claims) |
+| `061d200` | 2026-11-23 13:37 | charts: second-round evidence (figure 6), hero with 100 verified numbers |
+| `af29088` | 2026-11-23 13:37 | docs(adr): Update 2026-11-23 sections for 0001, 0002, 0003, 0005, 0007, 0008, 0012; DPO comparison corrected, DataFusion note withdrawn; evidence pins |
+| `5085333` | 2026-11-23 13:37 | docs(readme): second round table and figure, 100/100 verified, corrected DPO and DataFusion rows, cost inputs still assumptions |
+| (this commit) | 2026-11-23 | docs(timeline): second round |
+
+### Verification
+
+| Check | Result |
+|---|---|
+| Pins | lakehouse `6ba927f`, realtime `456e642`, airflow `3546e6f`, onprem `bd383f7`, serving `83af7fe`, secure `df8125e`, genai `9e3b863`, spark `361bb4a` |
+| `make check` (GitHub at pinned commits) | 100/100 claims verified |
+| `make check-local` | 100/100 claims verified |
+| `make test` | 10 passed |
+| `make cost` | unchanged: no cost input changed (PySpark/Polars runtime 3.69, Spark/Flink CPU 6.92) |
+
+### Found while running it
+
+- Re-pinning broke 5 claims, all in spark-rust-bench: its tables now have DataFusion values at 200M
+  rows instead of "killed", and 240 instead of 234 matching results. The quotes were updated, not the
+  check.
+- genai-foundations corrected its own DPO table during this round (dropout was on in the reference
+  model). The old quote still matched at the previous pin, which is the checker's known limit: it
+  proves where a number comes from, not that it is right. ADR 0007 now says best-of-4 is ahead.
+- On-prem costs are still assumptions; no real quote was obtained this round.
