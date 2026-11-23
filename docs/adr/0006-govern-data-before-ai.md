@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (pinned at `30bf75f`)
+- Evidence: [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (pinned at `df8125e`)
 
 ## Context
 

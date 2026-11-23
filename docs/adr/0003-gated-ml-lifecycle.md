@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `ea335bc`)
+- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `3546e6f`)
 
 ## Context
 
@@ -45,3 +45,14 @@ Retraining on a timer wastes effort and can ship a worse model; never retraining
   11,179 churners without features.
 - **Evidently's** default drift test flagged columns in all 6 monitored months; the PSI > 0.25
   trigger used here agreed in 5 of 6, so it stays as the retraining signal.
+
+## Update 2026-11-23: root-cause analysis and drift-triggered retraining (airflow-mlops `3546e6f`)
+
+- An automated RCA of the rolled-back v6 found the cause from lineage: retraining from the recorded
+  inputs reproduced the registered score only with v6's own training labels (0.8297 vs 0.4414),
+  so the labels, not the code or data, were at fault.
+- A drift watcher retrained when PSI crossed the trigger and promoted v11 (0.819 vs 0.7796 for the
+  champion); the API served it 4.1 s later. It needs a "new labels since the last model" guard: without
+  it, drift alone repeats a retrain on the same labels.
+- Decision unchanged; retraining may be triggered by drift as well as the calendar, behind the same
+  gates and canary (ADR 0011).

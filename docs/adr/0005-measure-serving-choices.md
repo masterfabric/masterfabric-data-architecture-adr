@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) (pinned at `0bdc279`)
+- Evidence: [masterfabric-llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) (pinned at `83af7fe`)
 
 ## Context
 
@@ -42,3 +42,11 @@ On CPU, Q8_0 gave 1.8× the throughput of Q4_K_M; on the GPU, Q4_K_M was slightl
 - **Speculative decoding** with a 0.5B draft paid off only for a 7B target on predictable text (1.60x
   llama.cpp, 1.73x MLX on code/SQL/YAML) and slowed open text; enable it per workload, not globally.
 - The cost of these choices per token is in ADR 0009.
+
+## Update 2026-11-23: speculative mismatches and a second machine (llm-serving-bench `83af7fe`)
+
+- Where speculative decoding changed the output, the target's own top two tokens were nearly tied
+  (0.002-0.034 nats apart at 7B). Speculative output is not guaranteed token-identical in practice;
+  test it against target-only output on near-ties, not on exact match.
+- The same harness on a MacBook Air M5 decoded at 107 tok/s against 164 on the M4 Pro (0.65x) for
+  one request with llama.cpp Q4_K_M. Capacity figures are per machine and are re-measured, not scaled.

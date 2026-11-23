@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-lakehouse-lab](https://github.com/masterfabric/masterfabric-lakehouse-lab) (pinned at `2382c11`)
+- Evidence: [masterfabric-lakehouse-lab](https://github.com/masterfabric/masterfabric-lakehouse-lab) (pinned at `6ba927f`)
 
 ## Context
 
@@ -46,3 +46,12 @@ consistent view and survive those changes without rewrites.
   8/11 and was blocked; 0 new rows were visible on `main` during either audit. An accidental delete
   was undone by `rollback_to_snapshot` to a tag: 138,373 rows restored in 0.057 s, metadata only.
 - Consequence: publishing becomes a gated step, like model promotion in ADR 0003.
+
+## Update 2026-11-23: table maintenance as a scheduled job (lakehouse-lab `6ba927f`)
+
+- Two tables received the same 60 batches with MERGE updates. Without maintenance the one-day query
+  slowed to 156.5 ms over 74 data files and 10 position-delete files; maintained every 20 batches
+  (rewrite data files, rewrite position deletes, rewrite manifests, expire snapshots) it stayed at
+  28.1 ms over 5 data files and no delete files.
+- Decision added: maintenance runs on a schedule tied to write volume, not on demand; orphan-file
+  cleanup keeps an age guard so files of running writers are never deleted.

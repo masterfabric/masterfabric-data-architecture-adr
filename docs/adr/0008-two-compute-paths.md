@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-spark-rust-bench](https://github.com/masterfabric/masterfabric-spark-rust-bench) (pinned at `8a6e137`)
+- Evidence: [masterfabric-spark-rust-bench](https://github.com/masterfabric/masterfabric-spark-rust-bench) (pinned at `361bb4a`)
 
 ## Context
 
@@ -22,7 +22,7 @@ and memory overhead built for much larger data.
 |---|---|
 | Same 6 SQL queries, sum of medians | PySpark 15.975 s · Scala 15.922 s · Polars 4.325 s · DuckDB 4.777 s |
 | Peak memory | PySpark 7.6 GiB · Scala 7.1 GiB · Polars 3.6 GiB · DuckDB 3.2 GiB |
-| Correctness | 234 of 234 query results identical (10M to 200M rows, Parquet and Iceberg) |
+| Correctness | 234 of 234 query results identical (10M to 200M rows, Parquet and Iceberg); 240 of 240 after the 2026-11-23 re-run |
 | Same column in Spark | built-in 0.846 s vs Python UDF 24.754 s |
 
 ## Consequences
@@ -34,7 +34,8 @@ and memory overhead built for much larger data.
 
 - **DuckDB** joins Polars on the single-node path: at 200M rows the six queries took 4.777 s (DuckDB)
   and 4.325 s (Polars) against 15.975 s for PySpark, with 3.2 and 3.6 GiB peak memory against 7.6 GiB.
-  DataFusion was killed at the 8 GiB limit at 200M rows and is no longer recommended as a stand-alone tool.
+  DataFusion was killed at the 8 GiB limit at 200M rows and is no longer recommended as a stand-alone tool
+  (withdrawn 2026-11-23, see below).
 - **The gap narrows with size but stays large on one node:** PySpark / Polars 5.9x at 10M rows, 3.7x
   at 200M. The crossover to a cluster is still unmeasured.
 - **Single-node engines read the lakehouse's Iceberg tables directly**; a one-week filter read 20 of 92
@@ -42,3 +43,15 @@ and memory overhead built for much larger data.
 - **Spark needs `TIMESTAMP_NTZ` literals** on zone-less timestamp columns: with the portable literal
   Q6 took 2.989 s on Iceberg, with `TIMESTAMP_NTZ` 0.742 s, because only then does the filter reach the scan.
 - The cost per run of each path is in ADR 0009.
+
+## Update 2026-11-23: DataFusion's memory explained (spark-rust-bench `361bb4a`)
+
+- DataFusion's growth came from the mimalloc allocator bundled with datafusion-python keeping freed
+  read buffers in per-thread heaps. Capping its cached segments per thread
+  (`MIMALLOC_TARGET_SEGMENTS_PER_THREAD=2`) cut peak memory at 10M rows from 1,653 to 679 MiB, and at
+  200M rows from killed to 2,776 MiB; the six queries took 5.532 s and all 240 query results matched.
+- DataFusion is back on the list of single-node options, with that setting; the earlier note that it is
+  "no longer recommended as a stand-alone tool" is withdrawn. Any long-lived engine process is sized
+  from resident memory under a realistic query mix.
+- The Spark `TIMESTAMP_NTZ` rule has a standalone reproduction: with the matching literal the scan
+  reads 7 files and skips 23 (44 and 42 ms with the literal or the session setting).

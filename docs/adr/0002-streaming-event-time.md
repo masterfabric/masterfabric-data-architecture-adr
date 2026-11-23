@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) (pinned at `8776322`)
+- Evidence: [masterfabric-realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) (pinned at `456e642`)
 
 ## Context
 
@@ -45,3 +45,12 @@ them. Alerts drive field operations, so false alerts cost money and missed incid
   with 0 duplicates.
 - Schemas are contracts: the Avro registry's BACKWARD rule rejected an incompatible v3 with 409;
   Avro records were 103 B against 367 B for JSON.
+
+## Update 2026-11-23: the watermark is a completeness setting (realtime-telco `456e642`)
+
+- Replaying one recorded delivery through silver at different watermark delays: 10 s lost 2,999 late
+  reports (9.95 %) and emitted after 0.5 min; the live 2 min setting lost 188 (0.65 %) after 2.5 min;
+  11 min lost 0 but emitted after 11.5 min.
+- Decision added: the watermark delay is chosen per KPI from the measured lateness curve and stated
+  as "share of reports that can be lost vs minutes to a result". Spark's `maxOffsetsPerTrigger` is a
+  rate cap, not backpressure; overload shows as growing latency, so latency is alerted on.

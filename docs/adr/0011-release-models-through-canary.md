@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `ea335bc`)
+- Evidence: [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) (pinned at `3546e6f`)
 
 ## Context
 

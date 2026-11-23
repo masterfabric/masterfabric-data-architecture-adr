@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) (pinned at `8776322`)
+- Evidence: [masterfabric-realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) (pinned at `456e642`)
 
 ## Context
 

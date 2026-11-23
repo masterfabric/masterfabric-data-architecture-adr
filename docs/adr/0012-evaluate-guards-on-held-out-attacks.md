@@ -2,8 +2,8 @@
 
 - Status: accepted
 - Date: 2026-11-21
-- Evidence: [masterfabric-onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) (`80b2a9c`),
-  [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (`30bf75f`)
+- Evidence: [masterfabric-onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) (`bd383f7`),
+  [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) (`df8125e`)
 
 ## Context
 
@@ -34,3 +34,14 @@ development set and on the held-out set differ sharply.
 - Red-team work becomes a recurring task (new held-out sets), not a one-time test.
 - Classifiers add latency (p50 1.17 s on 2 CPU threads in onprem-llm-stack, 71 ms in
   secure-data-ai) and false positives that users notice; both are reported with the block rate.
+
+## Update 2026-11-23: a re-tuned guard and clarify instead of block (onprem-llm-stack `bd383f7`, secure-data-ai `df8125e`)
+
+- A new held-out set was written before re-tuning, as this ADR requires. Guard v1.2 (a narrower
+  override at a lower threshold): attacks caught 18/24 → 22/24, benign blocked 2/20 → 4/20. It stays
+  optional; v1.1 remains the default because the trade-off is a policy choice.
+- Clarify instead of block: a flagged question is rewritten, re-checked and answered only after the
+  user confirms the rewrite. On a fresh set, legitimate questions blocked fell from 3/12 to 0/12;
+  attacks that succeed stayed 3/12, and the clarified path costs p50 753 ms against 368 ms.
+- Decision added: report the three numbers for the clarify path too; clarification does not replace
+  better detection, because attacks scored below the threshold never reach it.
