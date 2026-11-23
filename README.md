@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/hero.png" alt="MasterFabric Data Architecture: eight labs, twelve ADRs, 100 verified numbers" width="100%"></p>
+<p align="center"><img src="docs/hero.png" alt="MasterFabric Data Architecture: eight labs, thirteen ADRs, 104 verified numbers" width="100%"></p>
 
 # MasterFabric Data Architecture
 
@@ -9,12 +9,12 @@ Eight MasterFabric repositories each build and measure one part of the platform 
 lakehouse, streaming, MLOps, on-prem LLMs, LLM serving, data security, generative AI basics and
 batch compute. This repository ties them together: thirteen architecture decision records (ADRs),
 C4 and Mermaid diagrams of the whole platform, a cost model built on measured throughput, a
-Cloudera mapping, and a checker that verifies all 103 cited numbers against the source READMEs at
+Cloudera mapping, and a checker that verifies all 104 cited numbers against the source READMEs at
 pinned commits.
 
 ```text
 $ make check
-103/103 claims verified (GitHub at pinned commits)
+104/104 claims verified (GitHub at pinned commits)
 ```
 
 ## The platform
@@ -30,11 +30,11 @@ flowchart LR
   LH --> CMP[Compute<br/>Spark · Polars/DuckDB · Trino]
   LH --> ML[ML lifecycle<br/>Airflow · MLflow · Feast · canary]
   LH --> LLM[On-prem LLM<br/>llama.cpp/vLLM · pgvector · RAG · guards]
-  GOV[[Governance: PII, policies, audit chain, erasure, guarded retrieval]] -.-> LH & CMP & ML & LLM
+  GOV[[Governance: PII, policies, audit chain, erasure, request deadlines, guarded retrieval]] -.-> LH & CMP & ML & LLM
 ```
 
-Five more diagrams (the streaming path, a month of the model lifecycle with the canary, a governed
-RAG request, choosing a compute path, and the Cloudera mapping) are in
+Six more diagrams (the streaming path, a month of the model lifecycle with the canary, a governed
+RAG request, a data-subject request from intake to response, choosing a compute path, and the Cloudera mapping) are in
 [docs/architecture.md](docs/architecture.md).
 
 ## C4 views
@@ -56,10 +56,11 @@ value of each layer.</em></p>
 
 ## Decisions and their evidence
 
-<p align="center"><img src="docs/images/evidence.png" alt="Twelve panels, each the same metric without and with a decision" width="100%"></p>
-<p align="center"><em>Figure 5. Each panel is one decision: the same metric without it (grey) and with it. The last
-row is new: Flink vs Spark CPU, exactly-once vs at-least-once duplicates, and the two guard
-classifiers on held-out attacks. Values come from evidence/claims.json.</em></p>
+<p align="center"><img src="docs/images/evidence.png" alt="Thirteen panels, each the same metric without and with a decision" width="100%"></p>
+<p align="center"><em>Figure 5. Each panel is one decision: the same metric without it (grey) and with it. The
+third row covers Flink vs Spark CPU, exactly-once vs at-least-once duplicates, and the two guard
+classifiers on held-out attacks; the last panel (ADR 0013) counts receipt dates where a flat 30 days
+misses the GDPR calendar-month due date. Values come from evidence/claims.json.</em></p>
 
 | ADR | Decision | Key measured evidence | Lab |
 |---|---|---|---|
@@ -75,7 +76,7 @@ classifiers on held-out attacks. Values come from evidence/claims.json.</em></p>
 | [0010](docs/adr/0010-streaming-engine.md) | Flink for new low-latency streams; Spark where Spark already runs | Flink 3.07 s vs Spark 10.54 s, CPU 12 % vs 83 %; exactly-once 0 vs 4,080 duplicates | [realtime-telco](https://github.com/masterfabric/masterfabric-realtime-telco) |
 | [0011](docs/adr/0011-release-models-through-canary.md) | Release models through a canary and a feature store | v6 rolled back at 5 %; v5 promoted (ΔAUC −0.0007); 0 of 194,913 rows differ in point-in-time joins | [airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) |
 | [0012](docs/adr/0012-evaluate-guards-on-held-out-attacks.md) | Judge LLM guardrails on held-out attacks and legitimate traffic | held-out: 0/16 → 10/16 stopped (on-prem), 7/12 → 1/12 succeed (governed); 3/22 legitimate questions blocked | [onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack), [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
-| [0013](docs/adr/0013-track-data-subject-request-deadlines.md) | Track GDPR, CCPA and KVKK request deadlines with one rule table and pure date functions (not legal advice) | 540/540 requests on time over 200,000 customers; erasure p50 117 ms, 0 residual rows outside 360 retained invoice rows; GDPR month lands 28-31 days out | [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
+| [0013](docs/adr/0013-track-data-subject-request-deadlines.md) | Track GDPR, CCPA and KVKK request deadlines with one rule table and pure date functions (not legal advice) | 540/540 requests on time over 200,000 customers; erasure p50 117 ms, 0 residual rows outside 360 retained invoice rows; GDPR month lands 28-31 days out; a flat 30 days would differ on 481 of 731 receipt dates | [secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) |
 
 ADRs 0001-0008 each carry a dated "Update 2026-11-21" section that re-states the decision with the
 new evidence and points to the ADR that extends it. ADRs 0001, 0002, 0003, 0005, 0007, 0008 and 0012
@@ -131,7 +132,7 @@ flowchart LR
   C --> K[tools/check_claims.py]
   K --> G[README of the lab<br/>at the pinned commit]
   K --> V{quote present?<br/>values inside quote?}
-  V -- yes --> OK[103/103 verified]
+  V -- yes --> OK[104/104 verified]
   V -- no --> F[fail: fix or re-pin]
 ```
 
@@ -149,7 +150,7 @@ checker has not verified. The cost model reads the same verified values. Tests (
 | Interactive SQL | Trino | Cloudera Data Warehouse (Impala, Hive) |
 | ML lifecycle | Airflow, MLflow, Feast, Evidently, FastAPI canary | CDE Airflow, Cloudera Machine Learning registry, feature store and serving |
 | LLM serving | Helm chart, llama.cpp / vLLM, pgvector, reranker, Prometheus + Grafana | Cloudera AI Inference service, CML on GPU nodes |
-| Governance | PII detectors, role policies, retrieval filter, hash-chained audit, erasure | Ranger, Atlas, Cloudera Data Catalog (SDX) |
+| Governance | PII detectors, role policies, retrieval filter, hash-chained audit, erasure, request deadlines | Ranger, Atlas, Cloudera Data Catalog (SDX) |
 
 ## Quickstart
 
@@ -198,7 +199,7 @@ With the eight labs cloned next to this repository, `make check-local` verifies 
 | 3 | [masterfabric-airflow-mlops](https://github.com/masterfabric/masterfabric-airflow-mlops) | Twelve months of a churn model under Airflow and MLflow; Feast, Evidently, canary (champion v5) |
 | 4 | [masterfabric-onprem-llm-stack](https://github.com/masterfabric/masterfabric-onprem-llm-stack) | Helm-packaged LLM, RAG, guard classifier, reranker and monitoring on Kubernetes |
 | 5 | [masterfabric-llm-serving-bench](https://github.com/masterfabric/masterfabric-llm-serving-bench) | LLM serving: quantisation, KV cache, GPU vs CPU, MLX, speculative decoding |
-| 6 | [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) | KVKK PII masking, role policies, guarded RAG, OWASP LLM tests, audit chain, erasure |
+| 6 | [masterfabric-secure-data-ai](https://github.com/masterfabric/masterfabric-secure-data-ai) | KVKK PII masking, role policies, guarded RAG, OWASP LLM tests, audit chain, erasure, GDPR/CCPA/KVKK request deadlines |
 | 7 | [masterfabric-genai-foundations](https://github.com/masterfabric/masterfabric-genai-foundations) | Transformer, LoRA, GAN, WGAN-GP, diffusion, DPO and RL from scratch in PyTorch |
 | 8 | [masterfabric-spark-rust-bench](https://github.com/masterfabric/masterfabric-spark-rust-bench) | PySpark, Scala Spark, Polars, DuckDB and DataFusion on the same SQL, up to 200M rows, Iceberg |
 

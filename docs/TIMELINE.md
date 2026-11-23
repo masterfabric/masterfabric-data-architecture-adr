@@ -150,5 +150,14 @@ Times are Europe/Istanbul. secure-data-ai added a GDPR / CCPA / KVKK request wor
 | `make check-local` | 103/103 claims verified |
 | `make test` | 10 passed |
 
-The hero image and the evidence figure still show the earlier counts (twelve ADRs, 100 numbers); they were not
-regenerated in this step.
+Follow-up the same day: secure-data-ai re-pinned `fe90c23` → `8ef6054` (its README gained the DSR flow diagram
+and the flat-30-days comparison); claim `sd_dsr_flat30` added (104 in all); the evidence figure gained a 13th
+panel (ADR 0013) and its title shows the ADR and claim counts; the hero (13 ADRs, 104 verified numbers), the
+platform diagram and the C4 context and container views were regenerated; docs/architecture.md gained diagram 5,
+a data-subject request from intake to response; c4.md and the Cloudera mapping name request deadlines.
+
+| Check | Result |
+|---|---|
+| `make check` (GitHub at pinned commits) | 104/104 claims verified |
+| `make check-local` | 104/104 claims verified |
+| `make test` | 10 passed |
